@@ -1,0 +1,19 @@
+-- ═══════════════════════════════════════════════════════════════
+--  SỔ BẾP — seed_nguyen_lieu.sql
+--
+--  ⛔ FILE NÀY ĐANG TRỐNG — CHỜ BẢN GỐC.
+--
+--  Coder Pack ghi "kèm 2 file .sql đi cùng" nhưng chỉ có schema.sql được
+--  gửi. File seed (160 dòng nguyen_lieu_global) chưa nhận được, và theo
+--  quy tắc "không tự sinh lại schema" nên KHÔNG tự bịa ra.
+--
+--  ➜ Việc cần làm: dán nguyên nội dung seed_nguyen_lieu.sql bản gốc vào
+--    file này rồi chạy trong Supabase SQL Editor, theo thứ tự:
+--       1. schema.sql
+--       2. seed_nguyen_lieu.sql   ← file này
+--       3. fn_tao_bep.sql
+--
+--  Hệ quả khi chưa có seed: app vẫn chạy bình thường, chỉ là bếp mới tạo
+--  sẽ có danh mục nguyên liệu RỖNG. Màn /cho vẫn dùng được vì có nút
+--  "Tạo nguyên liệu mới ngay tại chỗ" — gõ tên là thêm được.
+-- ═══════════════════════════════════════════════════════════════

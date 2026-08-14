@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Nền trắng / stone-50, chữ stone-900 (#1C1917) */
+    --background: 0 0% 100%;
+    --foreground: 24 10% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 24 10% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 10% 10%;
+
+    /* #EA580C — cam đất */
+    --primary: 21 90% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    /* stone-100 */
+    --secondary: 60 5% 96%;
+    --secondary-foreground: 24 10% 10%;
+
+    --muted: 60 5% 96%;
+    --muted-foreground: 25 5% 45%; /* stone-500 */
+
+    --accent: 60 5% 96%;
+    --accent-foreground: 24 10% 10%;
+
+    /* #DC2626 */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 6% 90%; /* stone-200 */
+    --input: 20 6% 90%;
+    --ring: 21 90% 48%;
+
+    --radius: 0.75rem; /* rounded-xl */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Không dark mode (ngoài phạm vi) — khoá sáng để 2 máy không lệch giao diện */
+    color-scheme: light;
+  }
+  /* Bỏ mũi tên spinner của input number — ngoài chợ bấm nhầm suốt */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer utilities {
+  /* Chừa chỗ cho tai thỏ / thanh gạt home của điện thoại */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .h-safe-nav {
+    height: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+  /* Số tiền: chữ số thẳng cột, đọc lướt được */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Chặn iOS tự zoom khi focus input < 16px */
+  .no-zoom {
+    font-size: 16px;
+  }
+}
