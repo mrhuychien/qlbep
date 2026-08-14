@@ -25,6 +25,10 @@ export function FormMonAn({
 }) {
   const [tu, setTu] = useState('');
   const [chon, setChon] = useState<MonAn | null>(null);
+  // Phải điều khiển đóng/mở tường minh. Trước đây dropdown chỉ ẩn khi `chon`
+  // khác null, nên đường "Món mới" (chon vẫn null) để nó mở nguyên — mà nó
+  // absolute nên che đúng hàng suất/giá và nút +, bấm không được.
+  const [moGoiY, setMoGoiY] = useState(false);
   const [gia, setGia] = useState('');
   const [suat, setSuat] = useState('');
   const [goiY, setGoiY] = useState<GoiYSuat | null>(null);
@@ -40,6 +44,7 @@ export function FormMonAn({
 
   async function chonMon(m: MonAn) {
     setChon(m);
+    setMoGoiY(false);
     setTu(m.ten);
     setGia(m.gia_ban_mac_dinh ? String(Math.round(Number(m.gia_ban_mac_dinh))) : '');
     setDangTraCuu(true);
@@ -59,6 +64,7 @@ export function FormMonAn({
   function monMoi() {
     setChon(null);
     setGoiY(null);
+    setMoGoiY(false);
     oSuat.current?.focus();
   }
 
@@ -72,6 +78,7 @@ export function FormMonAn({
     setGia('');
     setSuat('');
     setGoiY(null);
+    setMoGoiY(false);
   }
 
   const dayDu = tu.trim() && docSoTien(gia) > 0 && Number(suat) > 0;
@@ -85,13 +92,24 @@ export function FormMonAn({
             setTu(e.target.value);
             setChon(null);
             setGoiY(null);
+            setMoGoiY(true);
           }}
+          onFocus={() => tu.trim() && !chon && setMoGoiY(true)}
           placeholder="Thêm món (gõ tên hoặc chọn)"
           aria-label="Tên món"
           autoComplete="off"
         />
-        {tu.trim() && !chon && (
-          <div className="absolute inset-x-0 top-full z-20 mt-1 flex flex-col gap-1 rounded-xl border border-border bg-card p-1 shadow-lg">
+        {tu.trim() && moGoiY && (
+          <>
+            {/* Chạm ra ngoài là đóng — không thì dropdown kẹt lại che nút bên dưới */}
+            <button
+              type="button"
+              aria-label="Đóng gợi ý"
+              onClick={() => setMoGoiY(false)}
+              className="fixed inset-0 z-10 cursor-default"
+              tabIndex={-1}
+            />
+            <div className="absolute inset-x-0 top-full z-20 mt-1 flex flex-col gap-1 rounded-xl border border-border bg-card p-1 shadow-lg">
             {ds.map((m) => (
               <button
                 key={m.id}
@@ -115,7 +133,8 @@ export function FormMonAn({
                 <span className="truncate">Món mới “{tu.trim()}”</span>
               </button>
             )}
-          </div>
+            </div>
+          </>
         )}
       </div>
 

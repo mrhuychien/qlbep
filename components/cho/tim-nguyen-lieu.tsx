@@ -47,7 +47,10 @@ export const TimNguyenLieu = forwardRef<
             if (e.key === 'Enter') {
               e.preventDefault();
               if (goiY[0]) chon(goiY[0]);
-              else if (tu.trim() && !trungTen) onTaoMoi(tu.trim());
+              else if (tu.trim() && !trungTen) {
+                onTaoMoi(tu.trim());
+                setTu(''); // đóng danh sách gợi ý, y như khi bấm nút
+              }
             }
             if (e.key === 'Escape') setTu('');
           }}

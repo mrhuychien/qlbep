@@ -120,57 +120,68 @@ export default function MenuPage() {
           {ds.map((t) => {
             const daBan = Number(t.sl_ban) > 0;
             return (
-              <div key={t.id} className="flex items-center gap-2 p-3">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold">{t.ten_mon}</p>
+              // Hai dòng: tên món được trọn bề ngang (nó là nội dung), ô nhập
+              // xuống hàng dưới. Nhồi tất cả vào một hàng thì ở 360px tên món
+              // bị cắt thành "Thịt …".
+              <div key={t.id} className="flex flex-col gap-1.5 p-3">
+                <div className="flex items-center gap-2">
+                  <p className="min-w-0 flex-1 truncate font-semibold">{t.ten_mon}</p>
                   {daBan && (
-                    <p className="tabular text-xs text-muted-foreground">đã bán {t.sl_ban} suất</p>
+                    <span className="tabular shrink-0 text-xs text-muted-foreground">
+                      đã bán {t.sl_ban}
+                    </span>
                   )}
+                  <button
+                    type="button"
+                    onClick={() => xoa(t)}
+                    disabled={daBan}
+                    title={daBan ? 'Món đã có đơn bán — không xoá được, sửa số suất thay vì xoá' : undefined}
+                    aria-label={`Xoá ${t.ten_mon}`}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-danger-soft hover:text-danger disabled:pointer-events-none disabled:opacity-30"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </div>
 
-                <label className="shrink-0">
-                  <span className="sr-only">{t.ten_mon}: số suất</span>
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    defaultValue={String(Number(t.sl_du_kien))}
-                    onFocus={(e) => e.target.select()}
-                    onBlur={(e) => {
-                      const v = Number(e.target.value.replace(',', '.')) || 0;
-                      if (v > 0 && v !== Number(t.sl_du_kien)) void sua(t, { sl_du_kien: v });
-                      else e.target.value = String(Number(t.sl_du_kien));
-                    }}
-                    className="tabular h-11 w-16 text-center"
-                  />
-                </label>
-                <span className="shrink-0 text-xs font-semibold text-muted-foreground">suất</span>
+                <div className="flex items-center gap-2">
+                  <div className="relative w-28 shrink-0">
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      defaultValue={String(Number(t.sl_du_kien))}
+                      onFocus={(e) => e.target.select()}
+                      onBlur={(e) => {
+                        const v = Number(e.target.value.replace(',', '.')) || 0;
+                        if (v > 0 && v !== Number(t.sl_du_kien)) void sua(t, { sl_du_kien: v });
+                        else e.target.value = String(Number(t.sl_du_kien));
+                      }}
+                      aria-label={`${t.ten_mon}: số suất`}
+                      className="tabular h-11 pr-12 text-center"
+                    />
+                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
+                      suất
+                    </span>
+                  </div>
 
-                <label className="w-24 shrink-0">
-                  <span className="sr-only">{t.ten_mon}: giá bán</span>
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    defaultValue={String(Math.round(Number(t.gia_ban)))}
-                    onFocus={(e) => e.target.select()}
-                    onBlur={(e) => {
-                      const v = docSoTien(e.target.value);
-                      if (v > 0 && v !== Number(t.gia_ban)) void sua(t, { gia_ban: v });
-                      else e.target.value = String(Math.round(Number(t.gia_ban)));
-                    }}
-                    className="tabular h-11 text-right"
-                  />
-                </label>
-
-                <button
-                  type="button"
-                  onClick={() => xoa(t)}
-                  disabled={daBan}
-                  title={daBan ? 'Món đã có đơn bán — không xoá được, sửa số suất thay vì xoá' : undefined}
-                  aria-label={`Xoá ${t.ten_mon}`}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-danger-soft hover:text-danger disabled:pointer-events-none disabled:opacity-30"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                  <div className="relative min-w-0 flex-1">
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      defaultValue={String(Math.round(Number(t.gia_ban)))}
+                      onFocus={(e) => e.target.select()}
+                      onBlur={(e) => {
+                        const v = docSoTien(e.target.value);
+                        if (v > 0 && v !== Number(t.gia_ban)) void sua(t, { gia_ban: v });
+                        else e.target.value = String(Math.round(Number(t.gia_ban)));
+                      }}
+                      aria-label={`${t.ten_mon}: giá bán`}
+                      className="tabular h-11 pr-10 text-right"
+                    />
+                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
+                      đ
+                    </span>
+                  </div>
+                </div>
               </div>
             );
           })}
