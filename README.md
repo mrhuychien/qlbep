@@ -91,6 +91,12 @@ chi phí luôn.
 Mỗi dòng `phieu_cho_ct` có `mon_an_id` nullable. Gán món = chi phí trực tiếp; để
 trống = chi phí chung, view tự phân bổ theo tỷ trọng. **Không có bảng recipe.**
 
+**Ảnh giấy chợ**
+Bucket `anh-cho` là **private**, không có URL công khai. Muốn xem lại phải xin
+link ký tạm (`createSignedUrls`, sống 1 giờ) — xem `components/cho/xem-anh.tsx`.
+Đường dẫn file: `<bep_id>/<ngay>/<timestamp>-<rand>.<ext>`; thư mục cấp 1 chính
+là `bep_id` và policy trong `sql/storage_anh_cho.sql` phân quyền dựa vào đó.
+
 **Waste**
 `thuc_don_ngay.sl_du` nhập tay lúc chốt tối = số suất nấu ra mà không bán được.
 Nguồn lỗ lớn nhất của mô hình này.

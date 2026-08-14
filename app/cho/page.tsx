@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Camera, Loader2, Save, ShoppingBasket } from 'lucide-react';
+import { Loader2, Save, ShoppingBasket } from 'lucide-react';
 import { useBep } from '@/lib/bep-context';
 import { supabase, BUCKET_ANH_CHO } from '@/lib/supabase';
 import { docSoTien, homNay, tien } from '@/lib/format';
@@ -20,6 +20,7 @@ import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
 import { TimNguyenLieu } from '@/components/cho/tim-nguyen-lieu';
 import { DongChoRow, type DongCho } from '@/components/cho/dong-cho';
 import { BadgeOffline } from '@/components/cho/badge-offline';
+import { XemAnhCho } from '@/components/cho/xem-anh';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toastLoi, toastOk } from '@/components/ui/use-toast';
@@ -280,16 +281,12 @@ export default function ChoPage() {
           onChange={chonAnh}
           className="hidden"
         />
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => oAnh.current?.click()}
-          disabled={dangTaiAnh}
-          className="flex-1"
-        >
-          {dangTaiAnh ? <Loader2 className="h-5 w-5 animate-spin" /> : <Camera className="h-5 w-5" />}
-          Ảnh giấy{anhDaCo.length > 0 && ` (${anhDaCo.length})`}
-        </Button>
+        <XemAnhCho
+          ngay={ngay}
+          duong={anhDaCo}
+          dangTaiAnh={dangTaiAnh}
+          onChup={() => oAnh.current?.click()}
+        />
 
         <Button type="button" onClick={luu} disabled={dangLuu || !daDoi} className="flex-1">
           {dangLuu ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}

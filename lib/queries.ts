@@ -1,5 +1,5 @@
 // Toàn bộ lệnh gọi Supabase gom về đây. Component không tự gọi supabase.
-import { supabase } from './supabase';
+import { supabase, BUCKET_ANH_CHO } from './supabase';
 import type {
   ChiPhiKhac,
   DonHang,
@@ -175,6 +175,20 @@ export async function luuPhieuCho(
   }
 
   return phieuId;
+}
+
+/**
+ * Bucket anh-cho là private nên không có URL công khai — phải xin link ký tạm.
+ * Link sống 1 giờ, đủ để xem lại tờ giấy chợ rồi thôi.
+ */
+export async function linkAnhCho(duong: string[]): Promise<{ duong: string; url: string }[]> {
+  if (!duong.length) return [];
+  const { data, error } = await supabase.storage
+    .from(BUCKET_ANH_CHO)
+    .createSignedUrls(duong, 60 * 60);
+  nem(error);
+  // Ảnh nào ký hỏng thì bỏ qua, không để cả khung xem chết theo
+  return (data ?? []).flatMap((d) => (d.signedUrl ? [{ duong: d.path ?? '', url: d.signedUrl }] : []));
 }
 
 // ═══════════════ MÓN ĂN + THỰC ĐƠN ═══════════════
