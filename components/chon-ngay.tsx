@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { congNgay, homNay, ngayCoThu } from '@/lib/format';
+import { congNgay, homNay, ngayCoThu, ngayNgan } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
 /**
@@ -12,10 +12,13 @@ export function ChonNgay({
   ngay,
   doiNgay,
   className,
+  gon,
 }: {
   ngay: string;
   doiNgay: (n: string) => void;
   className?: string;
+  /** Dạng ngắn "14/08" — dùng khi đứng cạnh tiêu đề màn, chỗ hẹp */
+  gon?: boolean;
 }) {
   const laHomNay = ngay === homNay();
 
@@ -30,9 +33,9 @@ export function ChonNgay({
         <ChevronLeft className="h-5 w-5" />
       </button>
 
-      <label className="relative flex flex-1 cursor-pointer items-center justify-center">
-        <span className="text-base font-bold">
-          {ngayCoThu(ngay)}
+      <label className="relative flex min-h-11 min-w-0 flex-1 cursor-pointer items-center justify-center">
+        <span className="truncate whitespace-nowrap text-base font-bold">
+          {gon ? ngayNgan(ngay) : ngayCoThu(ngay)}
           {laHomNay && <span className="ml-1.5 text-xs font-semibold text-primary">hôm nay</span>}
         </span>
         <input

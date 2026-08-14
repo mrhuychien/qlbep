@@ -64,6 +64,14 @@ const config: Config = {
         tap: '48px',
         nav: '56px',
       },
+      // Phải khai cả width: nút icon dùng "h-tap w-tap", thiếu width thì nút co
+      // lại bằng đúng cái icon (20px) mà không báo lỗi gì.
+      width: {
+        tap: '48px',
+      },
+      minWidth: {
+        tap: '48px',
+      },
       minHeight: {
         tap: '48px',
       },

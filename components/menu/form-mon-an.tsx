@@ -147,7 +147,7 @@ export function FormMonAn({
           aria-label="Giá bán một suất"
           className="tabular min-w-0 flex-1 text-right"
         />
-        <Button type="button" onClick={them} disabled={!dayDu || dangThem} size="icon" aria-label="Thêm món">
+        <Button type="button" onClick={them} disabled={!dayDu || dangThem} size="icon" className="shrink-0" aria-label="Thêm món">
           {dangThem ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
         </Button>
       </div>

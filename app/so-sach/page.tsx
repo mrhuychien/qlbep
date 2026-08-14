@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { AlertTriangle, TrendingDown } from 'lucide-react';
 import { useBep } from '@/lib/bep-context';
 import { ngayDay, phanTram } from '@/lib/format';
@@ -15,13 +16,29 @@ import {
 import type { ChiPhiKhac, GiaVonMonNgay, Pnl, WasteMon } from '@/lib/types';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
 import { BaoCaoPnl } from '@/components/so-sach/bao-cao-pnl';
-import { BieuDoDoanhThu, BieuDoTopMon, BieuDoWaste } from '@/components/so-sach/bieu-do';
 import { FormChiPhi } from '@/components/so-sach/form-chi-phi';
 import { BangKiemKe } from '@/components/so-sach/bang-kiem-ke';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+
+// Recharts nặng (~120kB). Tách khỏi gói chính để con số P&L hiện ngay, biểu đồ
+// tải sau — sóng yếu vẫn xem được cái quan trọng nhất.
+const khungCho = () => <Skeleton className="h-72 w-full" />;
+const BieuDoDoanhThu = dynamic(
+  () => import('@/components/so-sach/bieu-do').then((m) => m.BieuDoDoanhThu),
+  { ssr: false, loading: khungCho },
+);
+const BieuDoTopMon = dynamic(
+  () => import('@/components/so-sach/bieu-do').then((m) => m.BieuDoTopMon),
+  { ssr: false, loading: khungCho },
+);
+const BieuDoWaste = dynamic(() => import('@/components/so-sach/bieu-do').then((m) => m.BieuDoWaste), {
+  ssr: false,
+  loading: khungCho,
+});
 
 const NGUONG_LO = 45; // food cost % — trên mức này là món ăn lỗ
 const NGUONG_E = 20; // % dư trung bình — trên mức này là món hay ế

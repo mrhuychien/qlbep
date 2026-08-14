@@ -8,6 +8,7 @@ import { gio, homNay, tien } from '@/lib/format';
 import { layDonHangNgay, layThucDonNgay, layTongChoNgay, type DonHangKemMon } from '@/lib/queries';
 import type { ThucDonNgay } from '@/lib/types';
 import { ChonNgay } from '@/components/chon-ngay';
+import { TaiKhoan } from '@/components/tai-khoan';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
 import { ThongKeNgay } from '@/components/hom-nay/thong-ke-ngay';
 import { ThucDonHomNay } from '@/components/hom-nay/thuc-don-hom-nay';
@@ -52,8 +53,9 @@ export default function HomNayPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <header className="flex items-center justify-between gap-2">
-        <ChonNgay ngay={ngay} doiNgay={setNgay} className="flex-1" />
+      <header className="flex items-center gap-1">
+        <ChonNgay ngay={ngay} doiNgay={setNgay} className="min-w-0 flex-1" />
+        <TaiKhoan />
       </header>
 
       {bep && <p className="-mt-2 text-center text-xs font-semibold text-muted-foreground">{bep.ten}</p>}

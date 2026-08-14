@@ -5,6 +5,7 @@ import { AuthProvider } from '@/lib/auth-context';
 import { BepProvider } from '@/lib/bep-context';
 import { Guard } from '@/components/guard';
 import { Toaster } from '@/components/ui/toaster';
+import { DangKySW } from '@/components/dang-ky-sw';
 
 // Be Vietnam Pro — thiết kế riêng cho tiếng Việt, đủ dấu, không vỡ chữ "ặỡẽẵờụ"
 const beVietnam = Be_Vietnam_Pro({
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <BepProvider>
             <Guard>{children}</Guard>
             <Toaster />
+            <DangKySW />
           </BepProvider>
         </AuthProvider>
       </body>

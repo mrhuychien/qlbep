@@ -124,7 +124,7 @@ export function FormChiPhi({
             aria-label="Số tiền"
             className="tabular min-w-0 flex-1 text-right"
           />
-          <Button onClick={them} disabled={dangLuu || docSoTien(soTien) <= 0} size="icon" aria-label="Ghi chi phí">
+          <Button onClick={them} disabled={dangLuu || docSoTien(soTien) <= 0} size="icon" className="shrink-0" aria-label="Ghi chi phí">
             {dangLuu ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
           </Button>
         </div>

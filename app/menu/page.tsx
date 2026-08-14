@@ -98,7 +98,7 @@ export default function MenuPage() {
     <div className="flex flex-col gap-3">
       <header className="flex items-center gap-2">
         <h1 className="shrink-0 text-lg font-bold">Thực đơn</h1>
-        <ChonNgay ngay={ngay} doiNgay={setNgay} className="flex-1" />
+        <ChonNgay ngay={ngay} doiNgay={setNgay} gon className="min-w-0 flex-1" />
       </header>
 
       {loi && <Loi loi={loi} thuLai={tai} />}

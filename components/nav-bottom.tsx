@@ -18,23 +18,27 @@ export function NavBottom() {
   const router = useRouter();
   const chuan = path !== '/' && path.endsWith('/') ? path.slice(0, -1) : path;
 
+  // Trên chính màn /ban, FAB vừa thừa vừa che mất nút "Lưu đơn" → ẩn hẳn
+  const hienFab = chuan !== '/ban';
+
   return (
     <>
       {/* FAB "+ Đơn" — thao tác nhiều nhất trong ngày, nổi giữa, trên thanh nav */}
-      <button
-        type="button"
-        onClick={() => router.push('/ban')}
-        aria-label="Tạo đơn mới"
-        className={cn(
-          'fixed bottom-[72px] left-1/2 z-40 flex h-14 -translate-x-1/2 items-center gap-1.5 rounded-full',
-          'bg-primary px-5 font-bold text-primary-foreground shadow-lg shadow-primary/30',
-          'transition-transform active:scale-95',
-          chuan === '/ban' && 'ring-4 ring-primary/25',
-        )}
-      >
-        <Plus className="h-5 w-5" strokeWidth={3} />
-        Đơn
-      </button>
+      {hienFab && (
+        <button
+          type="button"
+          onClick={() => router.push('/ban')}
+          aria-label="Tạo đơn mới"
+          className={cn(
+            'fixed bottom-[72px] left-1/2 z-40 flex h-14 -translate-x-1/2 items-center gap-1.5 rounded-full',
+            'bg-primary px-5 font-bold text-primary-foreground shadow-lg shadow-primary/30',
+            'transition-transform active:scale-95',
+          )}
+        >
+          <Plus className="h-5 w-5" strokeWidth={3} />
+          Đơn
+        </button>
+      )}
 
       <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-5 border-t border-border bg-background pb-safe">
         {TABS.map(({ href, nhan, Icon }) => {

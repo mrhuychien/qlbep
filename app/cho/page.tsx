@@ -226,7 +226,7 @@ export default function ChoPage() {
     <div className="flex flex-col gap-3 pb-4">
       <header className="flex items-center gap-2">
         <h1 className="shrink-0 text-lg font-bold">Ghi chợ</h1>
-        <ChonNgay ngay={ngay} doiNgay={setNgay} className="flex-1" />
+        <ChonNgay ngay={ngay} doiNgay={setNgay} gon className="min-w-0 flex-1" />
       </header>
 
       <BadgeOffline />
