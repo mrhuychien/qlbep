@@ -29,21 +29,44 @@ Chạy trong **SQL Editor** theo đúng thứ tự:
 | 1 | `sql/schema.sql` | 13 bảng, trigger, view `v_gia_von_mon_ngay` / `v_waste_mon`, `fn_pnl`, RLS |
 | 2 | `sql/seed_nguyen_lieu.sql` | 160 nguyên liệu mẫu — **file đang trống, chờ bản gốc** |
 | 3 | `sql/fn_tao_bep.sql` | `fn_tao_bep(ten, dia_chi, sdt)` — tạo bếp + copy nguyên liệu mẫu |
+| 4 | `sql/storage_anh_cho.sql` | Bucket `anh-cho` (private) + 3 policy phân quyền theo `bep_id` |
 
 Rồi:
 
-- **Storage** → tạo bucket `anh-cho` (private) + policy cho `authenticated`
 - **Authentication → Providers** → bật Email
-- Điền `NEXT_PUBLIC_SUPABASE_URL` và `NEXT_PUBLIC_SUPABASE_ANON_KEY` vào `.env.local`
+- **Authentication → URL Configuration** → đặt `Site URL` = domain thật, và thêm
+  domain đó vào `Redirect URLs`. Magic link dùng `window.location.origin`, domain
+  nào không có trong danh sách này thì bấm link xong sẽ **không vào được app**.
+- **Settings → API** → copy `Project URL` và `anon public` key vào `.env.local`
 
-## Deploy Cloudflare Pages
+## Deploy
+
+App là static export (`out/`), chạy được trên mọi static host.
+
+### Vercel
+
+Import repo → giữ preset **Next.js** (đừng đổi Output Directory, Vercel tự hiểu
+`output: 'export'`) → khai 2 biến `NEXT_PUBLIC_SUPABASE_URL` và
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` cho **cả 3 môi trường** → Deploy.
+
+`vercel.json` đã đặt sẵn `Cache-Control` cho `sw.js` / `workbox-*.js` / `manifest.json`
+để người dùng không kẹt bản cũ sau mỗi lần deploy.
+
+> ⚠️ `NEXT_PUBLIC_*` được nhúng vào bundle **lúc build**. Thêm hoặc sửa biến xong
+> phải **Redeploy**, F5 không ăn thua.
+
+> ⚠️ Preview deployment có domain ngẫu nhiên. Muốn đăng nhập được trên preview,
+> thêm pattern `https://*.vercel.app/**` vào `Redirect URLs` của Supabase.
+
+### Cloudflare Pages
 
 ```bash
 npm run build        # sinh thư mục out/
 ```
 
-Push GitHub → Cloudflare Pages → build command `npm run build`, output directory `out`.
-Nhớ khai 2 biến `NEXT_PUBLIC_*` trong phần Environment variables của Pages.
+Build command `npm run build`, output directory `out`, khai 2 biến `NEXT_PUBLIC_*`.
+Headers tương đương đặt ở file `public/_headers` (chưa tạo — Cloudflare không đọc
+`vercel.json`).
 
 ## Kiến trúc
 
@@ -78,6 +101,6 @@ Nguồn lỗ lớn nhất của mô hình này.
 app/            7 route: / · /login · /cho · /menu · /ban · /khach · /so-sach
 components/     ui/ (shadcn) + thư mục theo màn
 lib/            supabase · queries · format · goi-y · ky · offline-queue · context
-sql/            schema · seed · fn_tao_bep
+sql/            schema · seed · fn_tao_bep · storage_anh_cho
 scripts/        gen-icons.mjs (sinh icon PWA, không cần dep ngoài)
 ```
