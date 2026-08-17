@@ -91,6 +91,17 @@ chi phí luôn.
 Mỗi dòng `phieu_cho_ct` có `mon_an_id` nullable. Gán món = chi phí trực tiếp; để
 trống = chi phí chung, view tự phân bổ theo tỷ trọng. **Không có bảng recipe.**
 
+**Ghi chợ chỉ bằng số tiền**
+Mặc định mỗi dòng chợ chỉ hỏi **số tiền** ("Dầu, gia vị — 80k"). Bấm *Theo &lt;đvt&gt;*
+để mở chế độ chi tiết (số lượng × đơn giá) khi cần nhớ giá.
+`phieu_cho_ct.so_luong` và `don_gia` đều `not null` và `thanh_tien` là cột
+generated, nên dòng gọn lưu theo quy ước **`so_luong = 1`, `don_gia` = số tiền**.
+Khi tải lại, dòng có `so_luong = 1` được mở lại ở chế độ gọn.
+⚠️ Hệ quả: trigger `trg_pcct_after` ghi `nguyen_lieu.gia_gan_nhat = don_gia`, nên
+sau một dòng gọn thì "giá gần nhất" của nguyên liệu đó là **tổng tiền lần mua**
+chứ không phải giá mỗi đơn vị. Gợi ý giá và cảnh báo lệch >30% vì thế chỉ hiện
+ở chế độ chi tiết.
+
 **Ảnh giấy chợ**
 Bucket `anh-cho` là **private**, không có URL công khai. Muốn xem lại phải xin
 link ký tạm (`createSignedUrls`, sống 1 giờ) — xem `components/cho/xem-anh.tsx`.

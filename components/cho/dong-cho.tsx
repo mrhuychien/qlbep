@@ -12,6 +12,12 @@ export interface DongCho {
   ten: string;
   dvt_cho: string;
   gia_gan_nhat: number | null;
+  /**
+   * true = chỉ gõ số tiền, bỏ qua số lượng và đơn giá ("Dầu, gia vị — 80k").
+   * Schema bắt so_luong và don_gia not null nên dòng gọn lưu so_luong = 1,
+   * don_gia = số tiền; cột thanh_tien (generated) vẫn ra đúng.
+   */
+  gon: boolean;
   so_luong: string;
   don_gia: string;
   thanh_tien: string;
@@ -23,6 +29,12 @@ export interface DongCho {
 const CHENH_CANH_BAO = 0.3; // lệch >30% so với lần mua trước thì nhắc
 
 export function tinhLai(d: DongCho, oiVua: 'so_luong' | 'don_gia' | 'thanh_tien'): DongCho {
+  // Dòng gọn: tiền gõ vào là tất cả, số lượng luôn là 1
+  if (d.gon) {
+    const tt = docSoTien(d.thanh_tien);
+    return { ...d, so_luong: '1', don_gia: tt > 0 ? String(tt) : '', neo: 'thanh_tien' };
+  }
+
   const sl = Number(d.so_luong.replace(',', '.')) || 0;
 
   if (oiVua === 'don_gia') {
@@ -42,6 +54,23 @@ export function tinhLai(d: DongCho, oiVua: 'so_luong' | 'don_gia' | 'thanh_tien'
   return { ...d, don_gia: sl > 0 && tt > 0 ? String(Math.round(tt / sl)) : '' };
 }
 
+/**
+ * Chuyển chế độ mà KHÔNG mất số tiền đã gõ.
+ * Gọn → chi tiết: giữ thành tiền, đặt số lượng 1, neo vào thành tiền — gõ
+ * "5" vào ô kg là đơn giá tự ra 600.000/5 = 120.000.
+ */
+export function datGon(d: DongCho, gon: boolean): DongCho {
+  const tt = docSoTien(d.thanh_tien);
+  if (gon) return { ...d, gon: true, so_luong: '1', don_gia: tt > 0 ? String(tt) : '', neo: 'thanh_tien' };
+  return {
+    ...d,
+    gon: false,
+    so_luong: d.so_luong || '1',
+    don_gia: tt > 0 ? String(Math.round(tt / (Number(d.so_luong) || 1))) : d.don_gia,
+    neo: 'thanh_tien',
+  };
+}
+
 export function DongChoRow({
   dong,
   monHomNay,
@@ -57,15 +86,15 @@ export function DongChoRow({
   onXoa: () => void;
   onXong: () => void;
 }) {
-  const slRef = useRef<HTMLInputElement>(null);
+  const oDau = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (tuDongFocus) slRef.current?.focus();
-  }, [tuDongFocus]);
+    if (tuDongFocus) oDau.current?.focus();
+  }, [tuDongFocus, dong.gon]);
 
   const dgHienTai = docSoTien(dong.don_gia);
   const lech =
-    dong.gia_gan_nhat && dgHienTai > 0
+    !dong.gon && dong.gia_gan_nhat && dgHienTai > 0
       ? Math.abs(dgHienTai - dong.gia_gan_nhat) / dong.gia_gan_nhat
       : 0;
 
@@ -80,6 +109,15 @@ export function DongChoRow({
     <div className="flex flex-col gap-1.5 px-3 py-2.5">
       <div className="flex items-center gap-2">
         <span className="min-w-0 flex-1 truncate font-semibold">{dong.ten}</span>
+
+        <button
+          type="button"
+          onClick={() => onSua(datGon(dong, !dong.gon))}
+          className="shrink-0 rounded-lg px-2 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-secondary"
+        >
+          {dong.gon ? `Theo ${dong.dvt_cho}` : 'Chỉ tiền'}
+        </button>
+
         <button
           type="button"
           onClick={onXoa}
@@ -90,50 +128,76 @@ export function DongChoRow({
         </button>
       </div>
 
-      <div className="flex items-center gap-1.5">
-        <div className="relative w-[4.5rem] shrink-0">
+      {dong.gon ? (
+        <>
           <Input
-            ref={slRef}
+            ref={oDau}
             type="text"
-            inputMode="decimal"
-            value={dong.so_luong}
-            onChange={(e) => onSua(tinhLai({ ...dong, so_luong: e.target.value }, 'so_luong'))}
+            inputMode="numeric"
+            value={dong.thanh_tien}
+            onChange={(e) => onSua(tinhLai({ ...dong, thanh_tien: e.target.value }, 'thanh_tien'))}
             onFocus={(e) => e.target.select()}
             onKeyDown={enterLaXong}
-            aria-label={`${dong.ten}: số lượng`}
-            className="tabular h-11 pr-8 text-center"
+            placeholder="hết bao nhiêu tiền"
+            aria-label={`${dong.ten}: số tiền`}
+            className="tabular h-11 text-right text-lg font-bold"
           />
-          <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
-            {dong.dvt_cho}
-          </span>
+          {dong.gia_gan_nhat ? (
+            <button
+              type="button"
+              onClick={() => onSua(datGon(dong, false))}
+              className="self-start text-xs font-semibold text-muted-foreground underline decoration-dotted"
+            >
+              Lần trước {tien(dong.gia_gan_nhat)}/{dong.dvt_cho} — bấm để nhập theo {dong.dvt_cho}
+            </button>
+          ) : null}
+        </>
+      ) : (
+        <div className="flex items-center gap-1.5">
+          <div className="relative w-[4.5rem] shrink-0">
+            <Input
+              ref={oDau}
+              type="text"
+              inputMode="decimal"
+              value={dong.so_luong}
+              onChange={(e) => onSua(tinhLai({ ...dong, so_luong: e.target.value }, 'so_luong'))}
+              onFocus={(e) => e.target.select()}
+              onKeyDown={enterLaXong}
+              aria-label={`${dong.ten}: số lượng`}
+              className="tabular h-11 pr-8 text-center"
+            />
+            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
+              {dong.dvt_cho}
+            </span>
+          </div>
+
+          <Input
+            type="text"
+            inputMode="numeric"
+            value={dong.don_gia}
+            onChange={(e) => onSua(tinhLai({ ...dong, don_gia: e.target.value }, 'don_gia'))}
+            onFocus={(e) => e.target.select()}
+            onKeyDown={enterLaXong}
+            placeholder="đơn giá"
+            aria-label={`${dong.ten}: đơn giá`}
+            className="tabular h-11 min-w-0 flex-1 text-right"
+          />
+
+          <span className="shrink-0 text-sm font-bold text-muted-foreground">=</span>
+
+          <Input
+            type="text"
+            inputMode="numeric"
+            value={dong.thanh_tien}
+            onChange={(e) => onSua(tinhLai({ ...dong, thanh_tien: e.target.value }, 'thanh_tien'))}
+            onFocus={(e) => e.target.select()}
+            onKeyDown={enterLaXong}
+            placeholder="thành tiền"
+            aria-label={`${dong.ten}: thành tiền`}
+            className="tabular h-11 min-w-0 flex-1 text-right font-bold"
+          />
         </div>
-
-        <Input
-          type="text"
-          inputMode="numeric"
-          value={dong.don_gia}
-          onChange={(e) => onSua(tinhLai({ ...dong, don_gia: e.target.value }, 'don_gia'))}
-          onFocus={(e) => e.target.select()}
-          onKeyDown={enterLaXong}
-          placeholder="đơn giá"
-          aria-label={`${dong.ten}: đơn giá`}
-          className="tabular h-11 min-w-0 flex-1 text-right"
-        />
-
-        <span className="shrink-0 text-sm font-bold text-muted-foreground">=</span>
-
-        <Input
-          type="text"
-          inputMode="numeric"
-          value={dong.thanh_tien}
-          onChange={(e) => onSua(tinhLai({ ...dong, thanh_tien: e.target.value }, 'thanh_tien'))}
-          onFocus={(e) => e.target.select()}
-          onKeyDown={enterLaXong}
-          placeholder="thành tiền"
-          aria-label={`${dong.ten}: thành tiền`}
-          className="tabular h-11 min-w-0 flex-1 text-right font-bold"
-        />
-      </div>
+      )}
 
       {/* Chọn món: dùng select gốc của hệ điều hành — mở bánh xe chọn 1 chạm,
           nhanh hơn popup tự vẽ. Đây là màn tính bằng giây. */}

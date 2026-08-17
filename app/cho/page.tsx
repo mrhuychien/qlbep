@@ -72,16 +72,20 @@ export default function ChoPage() {
       const banDo = new Map(nl.map((n) => [n.id, n]));
       const ds: DongCho[] = (phieu?.phieu_cho_ct ?? []).map((ct, i) => {
         const n = banDo.get(ct.nguyen_lieu_id);
+        // so_luong = 1 là dấu của dòng nhập gọn (chỉ tiền). Mở lại đúng chế độ
+        // đã ghi thay vì bắt người dùng nhìn "1 kg × 80.000" khó hiểu.
+        const gon = Number(ct.so_luong) === 1;
         return {
           key: `co-${ct.id ?? i}`,
           nguyen_lieu_id: ct.nguyen_lieu_id,
           ten: n?.ten ?? 'Nguyên liệu đã xoá',
           dvt_cho: n?.dvt_cho ?? 'kg',
           gia_gan_nhat: n?.gia_gan_nhat ?? null,
+          gon,
           so_luong: String(Number(ct.so_luong)),
           don_gia: String(Math.round(Number(ct.don_gia))),
           thanh_tien: String(Math.round(Number(ct.thanh_tien))),
-          neo: 'don_gia',
+          neo: gon ? 'thanh_tien' : 'don_gia',
           mon_an_id: ct.mon_an_id,
         };
       });
@@ -111,11 +115,13 @@ export default function ChoPage() {
         ten: nl.ten,
         dvt_cho: nl.dvt_cho,
         gia_gan_nhat: nl.gia_gan_nhat === null ? null : Number(nl.gia_gan_nhat),
-        so_luong: '',
-        // Gợi ý giá lần mua gần nhất — sửa đè được, không chặn
-        don_gia: nl.gia_gan_nhat ? String(Math.round(Number(nl.gia_gan_nhat))) : '',
+        // Mặc định gõ mỗi số tiền — nhanh nhất. Cần chi tiết thì bấm "Theo kg",
+        // hoặc bấm dòng gợi ý giá lần trước ngay dưới ô tiền.
+        gon: true,
+        so_luong: '1',
+        don_gia: '',
         thanh_tien: '',
-        neo: 'don_gia',
+        neo: 'thanh_tien',
         mon_an_id: null,
       },
     ]);
@@ -176,12 +182,23 @@ export default function ChoPage() {
 
   function dungDeLuu(ds: DongCho[]): DongChoLuu[] {
     return ds
-      .map((d) => ({
-        nguyen_lieu_id: d.nguyen_lieu_id,
-        so_luong: Number(d.so_luong.replace(',', '.')) || 0,
-        don_gia: docSoTien(d.don_gia),
-        mon_an_id: d.mon_an_id,
-      }))
+      .map((d) =>
+        // Dòng gọn: schema bắt so_luong/don_gia not null nên quy ước 1 × số tiền.
+        // thanh_tien (cột generated) vẫn ra đúng số tiền đã gõ.
+        d.gon
+          ? {
+              nguyen_lieu_id: d.nguyen_lieu_id,
+              so_luong: 1,
+              don_gia: docSoTien(d.thanh_tien),
+              mon_an_id: d.mon_an_id,
+            }
+          : {
+              nguyen_lieu_id: d.nguyen_lieu_id,
+              so_luong: Number(d.so_luong.replace(',', '.')) || 0,
+              don_gia: docSoTien(d.don_gia),
+              mon_an_id: d.mon_an_id,
+            },
+      )
       .filter((d) => d.so_luong > 0 && d.don_gia > 0);
   }
 
