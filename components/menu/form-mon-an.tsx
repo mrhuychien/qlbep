@@ -6,6 +6,7 @@ import type { MonAn } from '@/lib/types';
 import { docSoTien, khop, tien } from '@/lib/format';
 import { goiYSoSuat, type GoiYSuat } from '@/lib/goi-y';
 import { lichSuMon } from '@/lib/queries';
+import { useThemKhiBam } from '@/lib/hanh-dong';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -34,6 +35,14 @@ export function FormMonAn({
   const [goiY, setGoiY] = useState<GoiYSuat | null>(null);
   const [dangTraCuu, setDangTraCuu] = useState(false);
   const oSuat = useRef<HTMLInputElement>(null);
+  const oTen = useRef<HTMLInputElement>(null);
+
+  // Nút + của thanh nav trên màn Menu = thêm món
+  useThemKhiBam(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setMoGoiY(false);
+    oTen.current?.focus();
+  });
 
   const ds = useMemo(() => {
     if (!tu.trim()) return [];
@@ -87,6 +96,7 @@ export function FormMonAn({
     <Card className="flex flex-col gap-2 p-3">
       <div className="relative">
         <Input
+          ref={oTen}
           value={tu}
           onChange={(e) => {
             setTu(e.target.value);

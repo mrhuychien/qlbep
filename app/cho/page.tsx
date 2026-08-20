@@ -15,6 +15,7 @@ import {
 } from '@/lib/queries';
 import { tuDongDay, xepHang } from '@/lib/offline-queue';
 import { useTaiLaiKhiBam } from '@/lib/tai-lai';
+import { useThemKhiBam } from '@/lib/hanh-dong';
 import type { NguyenLieu, ThucDonNgay } from '@/lib/types';
 import { ChonNgay } from '@/components/chon-ngay';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
@@ -103,6 +104,11 @@ export default function ChoPage() {
     void tai();
   }, [tai]);
   useTaiLaiKhiBam(tai);
+  // Nút + của thanh nav trên màn này = ghi thêm một dòng chợ
+  useThemKhiBam(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    oTim.current?.focus();
+  });
 
   // Có sóng lại thì tự đẩy hàng đợi
   useEffect(() => tuDongDay((kq) => toastOk(`Đã gửi ${kq.xong} phiếu chợ chờ sẵn`)), []);

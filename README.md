@@ -93,6 +93,29 @@ vanilla, sẽ đánh nhau với Tailwind).
 Font vẫn là **Be Vietnam Pro** thay vì Inter của NPP — thiết kế riêng cho tiếng
 Việt, đủ dấu. Doc của NPP cũng cho phép đổi font khi port.
 
+## Điều hướng
+
+Bottom nav **6 tab**: Hôm nay · Chợ · Menu · **Bán** · Khách · Sổ sách.
+
+Nút **+ nổi góc phải đổi việc theo tab đang mở** — mỗi màn có một thứ để "thêm"
+khác nhau, một nút "+ Đơn" dùng chung cho mọi màn là sai:
+
+| Tab | Nút + | Làm gì |
+|---|---|---|
+| Hôm nay | **+ Đơn** | sang màn Bán |
+| Chợ | **+ Dòng** | cuộn lên, focus ô tìm nguyên liệu |
+| Menu | **+ Món** | cuộn lên, focus ô tên món |
+| Bán | *(ẩn)* | chính nó đã là màn thêm đơn |
+| Khách | **+ Khách** | mở form thêm khách hàng |
+| Sổ sách | *(ẩn)* | màn đọc báo cáo; thêm chi phí đã có form sẵn trong tab |
+
+Nav không cần biết màn nào làm gì: nút + phát `CustomEvent`, màn đang mở tự bắt
+và xử (`lib/hanh-dong.ts`) — cùng cơ chế với nút ↻ làm mới (`lib/tai-lai.ts`).
+
+> Tên (`aria-label`) của nút + phải **khác hẳn** tên nút trong thân màn, không
+> được là chuỗi con của nhau — nếu không trình đọc màn hình không phân biệt được
+> "Nhập món mới" (nút nổi) với "Thêm món" (nút ✓ trong form).
+
 ## Kiến trúc
 
 - **Next.js 14 App Router + `output: 'export'`** — không SSR, không API route, không

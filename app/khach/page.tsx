@@ -9,8 +9,10 @@ import { layKhachHang } from '@/lib/queries';
 import type { KhachHang } from '@/lib/types';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
 import { useTaiLaiKhiBam } from '@/lib/tai-lai';
+import { useThemKhiBam } from '@/lib/hanh-dong';
 import { DanhSachKhach } from '@/components/khach/danh-sach-khach';
 import { ChiTietKhach } from '@/components/khach/chi-tiet-khach';
+import { ThemKhach } from '@/components/khach/them-khach';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +31,7 @@ export default function KhachPage() {
   const [ds, setDs] = useState<KhachHang[]>([]);
   const [tu, setTu] = useState('');
   const [xem, setXem] = useState<KhachHang | null>(null);
+  const [moThem, setMoThem] = useState(false);
   const [dangTai, setDangTai] = useState(true);
   const [loi, setLoi] = useState<string | null>(null);
 
@@ -49,6 +52,7 @@ export default function KhachPage() {
     void tai();
   }, [tai]);
   useTaiLaiKhiBam(tai);
+  useThemKhiBam(() => setMoThem(true));
 
   const loc = useMemo(() => {
     const t = tu.trim();
@@ -147,6 +151,15 @@ export default function KhachPage() {
       </Tabs>
 
       <ChiTietKhach khach={xem} onDong={() => setXem(null)} onDaSua={capNhat} />
+
+      {bepId && (
+        <ThemKhach
+          mo={moThem}
+          setMo={setMoThem}
+          bepId={bepId}
+          onXong={(k) => setDs((p) => [k, ...p])}
+        />
+      )}
     </div>
   );
 }
