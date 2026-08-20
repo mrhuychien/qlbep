@@ -2,17 +2,19 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
+/** Pill bo tròn hoàn toàn, cặp "nền nhạt + chữ đậm cùng tông" của NPP. */
 const badgeVariants = cva(
-  'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors',
+  'inline-flex items-center rounded-full px-2.5 py-1 text-[0.7rem] font-bold transition-colors',
   {
     variants: {
       variant: {
-        default: 'bg-primary/10 text-primary',
-        secondary: 'bg-secondary text-secondary-foreground',
+        default: 'bg-info-soft text-info-ink',
+        secondary: 'bg-surface-2 text-text-2',
         success: 'bg-success-soft text-success-ink',
         danger: 'bg-danger-soft text-danger-ink',
         warning: 'bg-warning-soft text-warning-ink',
-        outline: 'border border-border text-foreground',
+        mua: 'text-white nen-mua',
+        outline: 'border border-border text-text-2',
       },
     },
     defaultVariants: { variant: 'default' },

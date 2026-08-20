@@ -25,21 +25,21 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 p-5">
+    <main className="tren-glow mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-6 p-5">
       <div className="flex flex-col items-center gap-3 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+        <div className="flex h-16 w-16 items-center justify-center rounded-xl text-white shadow-md nen-mua">
           <ChefHat className="h-8 w-8" />
         </div>
         <div>
           <h1 className="text-2xl font-bold">Sổ Bếp</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-text-2">
             Đi chợ · Thực đơn · Đơn hàng · Lãi lỗ
           </p>
         </div>
       </div>
 
       {daGui ? (
-        <div className="flex flex-col items-center gap-3 rounded-xl border border-success/30 bg-success-soft p-5 text-center">
+        <div className="flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success-soft p-5 text-center">
           <MailCheck className="h-8 w-8 text-success" />
           <div>
             <p className="font-bold text-success-ink">Đã gửi link đăng nhập</p>
@@ -53,7 +53,7 @@ export default function LoginPage() {
           </Button>
         </div>
       ) : (
-        <form onSubmit={gui} className="flex flex-col gap-3">
+        <form onSubmit={gui} className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 shadow-sm">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -70,7 +70,7 @@ export default function LoginPage() {
           </div>
 
           {loi && (
-            <p className="rounded-lg bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
+            <p className="rounded-sm bg-danger-soft px-3 py-2 text-sm font-semibold text-danger-ink">
               {loi}
             </p>
           )}
@@ -79,7 +79,7 @@ export default function LoginPage() {
             {dangGui && <Loader2 className="h-4 w-4 animate-spin" />}
             {dangGui ? 'Đang gửi…' : 'Gửi link đăng nhập'}
           </Button>
-          <p className="text-center text-xs text-muted-foreground">
+          <p className="text-center text-xs text-text-2">
             Không cần mật khẩu. Bấm gửi rồi mở email là xong.
           </p>
         </form>

@@ -68,6 +68,31 @@ Build command `npm run build`, output directory `out`, khai 2 biến `NEXT_PUBLI
 Headers tương đương đặt ở file `public/_headers` (chưa tạo — Cloudflare không đọc
 `vercel.json`).
 
+## Giao diện — hệ NPP Portal
+
+Port design language của **NPP Portal** sang Tailwind (không bê nguyên stylesheet
+vanilla, sẽ đánh nhau với Tailwind).
+
+- **Nền gradient đổi theo 4 mùa** + 2 vệt glow ở góc. Lần đầu tự chọn theo tháng
+  (lịch VN: 4/2→4/5 Xuân · 5/5→6/8 Hạ · 7/8→6/11 Thu · còn lại Đông), sau đó nhớ
+  lựa chọn tay trong `localStorage`. Đổi mùa mượt 0.6s.
+- **Lớp mùa đặt trên khung `.app-mua`, KHÔNG đặt trên `<body>`** — body để cho
+  trình duyệt và thư viện khác.
+- Header 56px + bottom-nav 64px **kính mờ** (`backdrop-filter: blur(20px)`).
+- **ViewBanner** nền tối slate + "quả cầu" màu mùa mờ ở góc phải, mở đầu mỗi màn.
+- Nhịp lặp khắp app: **nhãn nhỏ IN HOA mờ / giá trị to đậm** (class `.nhan`).
+- Nút chính, tab đang chọn, link nhấn, focus ring đều lấy `--mua-*`.
+  Màu **ngữ nghĩa** (success/danger/warning/info) **cố định** — nó báo trạng thái,
+  đổi theo mùa là nói dối.
+
+> ⚠️ 4 class `.mua-xuan/.mua-ha/.mua-thu/.mua-dong` được ghép động
+> (`` `mua-${mua}` ``) nên Tailwind không quét thấy chuỗi literal. Chúng phải nằm
+> **ngoài `@layer`** trong `globals.css` (kèm `safelist` trong config), nếu không
+> sẽ bị tree-shake mất và app chạy nguyên màu mặc định **mà không báo lỗi gì**.
+
+Font vẫn là **Be Vietnam Pro** thay vì Inter của NPP — thiết kế riêng cho tiếng
+Việt, đủ dấu. Doc của NPP cũng cho phép đổi font khi port.
+
 ## Kiến trúc
 
 - **Next.js 14 App Router + `output: 'export'`** — không SSR, không API route, không
@@ -116,8 +141,8 @@ Nguồn lỗ lớn nhất của mô hình này.
 
 ```
 app/            7 route: / · /login · /cho · /menu · /ban · /khach · /so-sach
-components/     ui/ (shadcn) + thư mục theo màn
-lib/            supabase · queries · format · goi-y · ky · offline-queue · context
+components/     ui/ (shadcn) · shell/ (header, nav, đổi mùa) · npp/ (banner, KPI) · thư mục theo màn
+lib/            supabase · queries · format · goi-y · ky · mua · offline-queue · context
 sql/            schema · seed · fn_tao_bep · storage_anh_cho
 scripts/        gen-icons.mjs (sinh icon PWA, không cần dep ngoài)
 ```

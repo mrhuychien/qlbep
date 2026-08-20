@@ -54,7 +54,7 @@ export function ThucDonHomNay({ ds, ngay }: { ds: ThucDonNgay[]; ngay: string })
                 {tt === 'nguy_co_e' && (
                   <AlertTriangle className="h-4 w-4 text-danger" aria-label="Nguy cơ ế" />
                 )}
-                <span className="tabular text-sm font-bold text-muted-foreground">
+                <span className="tabular text-sm font-bold text-text-2">
                   {tien(t.gia_ban)}
                 </span>
               </span>
@@ -63,10 +63,10 @@ export function ThucDonHomNay({ ds, ngay }: { ds: ThucDonNgay[]; ngay: string })
             <div className="flex items-center gap-2">
               <span className="tabular w-16 shrink-0 text-sm font-bold">
                 {t.sl_ban}
-                <span className="font-medium text-muted-foreground">/{t.sl_du_kien}</span>
+                <span className="font-medium text-text-2">/{t.sl_du_kien}</span>
               </span>
               <div
-                className="h-2 flex-1 overflow-hidden rounded-full bg-secondary"
+                className="h-2 flex-1 overflow-hidden rounded-full bg-surface-2"
                 role="progressbar"
                 aria-valuenow={Math.round(tyLe * 100)}
                 aria-valuemin={0}

@@ -54,9 +54,9 @@ export function TimKhach({
         <div className="min-w-0 flex-1">
           <p className="truncate font-bold">
             {chon.ten}
-            {chon.vangLai && <span className="ml-1.5 text-xs font-semibold text-muted-foreground">khách lẻ</span>}
+            {chon.vangLai && <span className="ml-1.5 text-xs font-semibold text-text-2">khách lẻ</span>}
           </p>
-          <p className="truncate text-sm text-muted-foreground">
+          <p className="truncate text-sm text-text-2">
             {[chon.sdt, chon.dia_chi].filter(Boolean).join(' · ') || 'Chưa có địa chỉ'}
           </p>
         </div>
@@ -69,7 +69,7 @@ export function TimKhach({
             onBo();
           }}
           aria-label="Đổi khách"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-text-2 hover:bg-surface-2"
         >
           <X className="h-5 w-5" />
         </button>
@@ -80,7 +80,7 @@ export function TimKhach({
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
-        <Phone className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+        <Phone className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-text-2" />
         <Input
           value={tu}
           onChange={(e) => setTu(e.target.value)}
@@ -106,10 +106,10 @@ export function TimKhach({
                   vangLai: false,
                 })
               }
-              className="flex min-h-tap flex-col justify-center rounded-lg px-3 py-1.5 text-left transition-colors hover:bg-secondary"
+              className="flex min-h-tap flex-col justify-center rounded-lg px-3 py-1.5 text-left transition-colors hover:bg-surface-2"
             >
               <span className="truncate font-semibold">{k.ten}</span>
-              <span className="truncate text-xs text-muted-foreground">
+              <span className="truncate text-xs text-text-2">
                 {[k.sdt, k.dia_chi].filter(Boolean).join(' · ')}
               </span>
             </button>
@@ -164,7 +164,7 @@ export function TimKhach({
                   vangLai: true,
                 })
               }
-              className="flex min-h-tap items-center gap-2 rounded-lg px-3 text-left font-semibold text-primary transition-colors hover:bg-secondary"
+              className="flex min-h-tap items-center gap-2 rounded-lg px-3 text-left font-semibold text-primary transition-colors hover:bg-surface-2"
             >
               <UserPlus className="h-4 w-4 shrink-0" />
               <span className="truncate">Khách lẻ “{tu.trim()}” — không lưu hồ sơ</span>

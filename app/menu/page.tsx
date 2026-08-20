@@ -14,6 +14,7 @@ import {
 } from '@/lib/queries';
 import type { MonAn, ThucDonNgay } from '@/lib/types';
 import { ChonNgay } from '@/components/chon-ngay';
+import { useTaiLaiKhiBam } from '@/lib/tai-lai';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
 import { FormMonAn } from '@/components/menu/form-mon-an';
 import { SaoChepNgay } from '@/components/menu/sao-chep-ngay';
@@ -49,6 +50,7 @@ export default function MenuPage() {
   useEffect(() => {
     void tai();
   }, [tai]);
+  useTaiLaiKhiBam(tai);
 
   async function them(ten: string, mon: MonAn | null, giaBan: number, suat: number) {
     if (!bepId) return;
@@ -96,10 +98,7 @@ export default function MenuPage() {
 
   return (
     <div className="flex flex-col gap-3">
-      <header className="flex items-center gap-2">
-        <h1 className="shrink-0 text-lg font-bold">Thực đơn</h1>
-        <ChonNgay ngay={ngay} doiNgay={setNgay} gon className="min-w-0 flex-1" />
-      </header>
+      <ChonNgay ngay={ngay} doiNgay={setNgay} />
 
       {loi && <Loi loi={loi} thuLai={tai} />}
 
@@ -127,7 +126,7 @@ export default function MenuPage() {
                 <div className="flex items-center gap-2">
                   <p className="min-w-0 flex-1 truncate font-semibold">{t.ten_mon}</p>
                   {daBan && (
-                    <span className="tabular shrink-0 text-xs text-muted-foreground">
+                    <span className="tabular shrink-0 text-xs text-text-2">
                       đã bán {t.sl_ban}
                     </span>
                   )}
@@ -137,7 +136,7 @@ export default function MenuPage() {
                     disabled={daBan}
                     title={daBan ? 'Món đã có đơn bán — không xoá được, sửa số suất thay vì xoá' : undefined}
                     aria-label={`Xoá ${t.ten_mon}`}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-danger-soft hover:text-danger disabled:pointer-events-none disabled:opacity-30"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm text-text-3 transition-colors hover:bg-danger-soft hover:text-danger disabled:pointer-events-none disabled:opacity-30"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -158,7 +157,7 @@ export default function MenuPage() {
                       aria-label={`${t.ten_mon}: số suất`}
                       className="tabular h-11 pr-12 text-center"
                     />
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
+                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-text-2">
                       suất
                     </span>
                   </div>
@@ -177,7 +176,7 @@ export default function MenuPage() {
                       aria-label={`${t.ten_mon}: giá bán`}
                       className="tabular h-11 pr-10 text-right"
                     />
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
+                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-text-2">
                       đ
                     </span>
                   </div>
@@ -189,13 +188,13 @@ export default function MenuPage() {
       )}
 
       {ds.some((t) => Number(t.sl_ban) > 0) && (
-        <p className="px-1 text-xs text-muted-foreground">
+        <p className="px-1 text-xs text-text-2">
           Món đã có đơn bán thì không xoá được — sửa số suất thay vì xoá, để đơn cũ không mất dấu.
         </p>
       )}
 
-      <div className="flex items-baseline justify-between rounded-xl bg-secondary px-4 py-3">
-        <span className="text-sm font-bold uppercase tracking-wide text-muted-foreground">
+      <div className="flex items-baseline justify-between rounded-lg bg-surface-2 px-4 py-3">
+        <span className="text-sm font-bold uppercase tracking-wide text-text-2">
           Dự kiến doanh thu
         </span>
         <span className="tabular text-xl font-bold">{tien(duKien)}</span>

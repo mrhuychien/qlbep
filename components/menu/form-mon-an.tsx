@@ -115,10 +115,10 @@ export function FormMonAn({
                 key={m.id}
                 type="button"
                 onClick={() => chonMon(m)}
-                className="flex min-h-tap items-center justify-between gap-2 rounded-lg px-3 text-left transition-colors hover:bg-secondary"
+                className="flex min-h-tap items-center justify-between gap-2 rounded-lg px-3 text-left transition-colors hover:bg-surface-2"
               >
                 <span className="truncate font-semibold">{m.ten}</span>
-                <span className="shrink-0 text-xs text-muted-foreground">
+                <span className="shrink-0 text-xs text-text-2">
                   {m.gia_ban_mac_dinh ? tien(m.gia_ban_mac_dinh) : 'chưa có giá'}
                 </span>
               </button>
@@ -127,7 +127,7 @@ export function FormMonAn({
               <button
                 type="button"
                 onClick={monMoi}
-                className="flex min-h-tap items-center gap-2 rounded-lg px-3 text-left font-semibold text-primary transition-colors hover:bg-secondary"
+                className="flex min-h-tap items-center gap-2 rounded-lg px-3 text-left font-semibold text-primary transition-colors hover:bg-surface-2"
               >
                 <Plus className="h-4 w-4 shrink-0" />
                 <span className="truncate">Món mới “{tu.trim()}”</span>
@@ -172,7 +172,7 @@ export function FormMonAn({
       </div>
 
       {dangTraCuu && (
-        <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <p className="flex items-center gap-1.5 text-xs text-text-2">
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
           Đang xem lịch sử món này…
         </p>
@@ -194,7 +194,7 @@ export function FormMonAn({
       )}
 
       {chon === null && tu.trim() && !dangTraCuu && (
-        <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <p className="flex items-center gap-1.5 text-xs text-text-2">
           <Lightbulb className="h-3.5 w-3.5 shrink-0" />
           Món mới — thêm xong sẽ được nhớ cho lần sau.
         </p>

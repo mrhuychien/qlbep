@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { UtensilsCrossed, Zap } from 'lucide-react';
 import { useBep } from '@/lib/bep-context';
-import { docSoTien, homNay } from '@/lib/format';
+import { docSoTien, homNay, ngayCoThu } from '@/lib/format';
 import {
   donCuaKhach,
   layKhachHang,
@@ -16,6 +16,8 @@ import {
 } from '@/lib/queries';
 import type { KenhDat, KhachHang, ThucDonNgay } from '@/lib/types';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
+import { ViewBanner } from '@/components/npp/view-banner';
+import { useTaiLaiKhiBam } from '@/lib/tai-lai';
 import { TimKhach, type KhachChon } from '@/components/ban/tim-khach';
 import { LuoiMon } from '@/components/ban/luoi-mon';
 import { TomTatDon } from '@/components/ban/tom-tat-don';
@@ -56,6 +58,7 @@ export default function BanPage() {
   useEffect(() => {
     void tai();
   }, [tai]);
+  useTaiLaiKhiBam(tai);
 
   async function chonKhach(k: KhachChon) {
     setKhach(k);
@@ -158,12 +161,11 @@ export default function BanPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <header className="flex items-baseline justify-between gap-2">
-        <h1 className="text-lg font-bold">Đơn mới</h1>
-        <span className="text-sm font-semibold text-muted-foreground">
-          {new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
-        </span>
-      </header>
+      <ViewBanner
+        tieuDe={khach?.ten ?? 'Đơn mới'}
+        phu={khach ? [khach.sdt, khach.dia_chi].filter(Boolean).join(' · ') || 'Khách lẻ' : ngayCoThu(ngay)}
+        badge={dongDon.length > 0 ? `${dongDon.length} món` : undefined}
+      />
 
       {loi && <Loi loi={loi} thuLai={tai} />}
 
@@ -171,7 +173,7 @@ export default function BanPage() {
 
       {hayDat.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+          <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-text-2">
             <Zap className="h-3.5 w-3.5" />
             Hay đặt
           </span>
@@ -184,7 +186,7 @@ export default function BanPage() {
                 disabled={!co}
                 onClick={() => themNhanh(ten)}
                 title={co ? undefined : 'Hôm nay không nấu món này'}
-                className="h-9 rounded-full border border-border bg-card px-3 text-sm font-semibold transition-colors active:bg-secondary disabled:opacity-40"
+                className="h-9 rounded-full border border-border bg-card px-3 text-sm font-semibold transition-colors active:bg-surface-2 disabled:opacity-40"
               >
                 {ten}
               </button>
@@ -194,7 +196,7 @@ export default function BanPage() {
       )}
 
       <section className="flex flex-col gap-2">
-        <h2 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+        <h2 className="text-xs font-bold uppercase tracking-wide text-text-2">
           Chọn món — chạm để +1
         </h2>
         {dangTai ? (

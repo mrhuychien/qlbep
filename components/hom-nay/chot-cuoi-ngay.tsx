@@ -74,7 +74,7 @@ export function ChotCuoiNgay({ ds, onXong }: { ds: ThucDonNgay[]; onXong: () => 
               <div key={t.id} className="flex items-center gap-2 py-2">
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold">{t.ten_mon}</p>
-                  <p className="tabular text-xs text-muted-foreground">
+                  <p className="tabular text-xs text-text-2">
                     nấu {t.sl_du_kien} · bán {t.sl_ban}
                   </p>
                 </div>
@@ -102,8 +102,8 @@ export function ChotCuoiNgay({ ds, onXong }: { ds: ThucDonNgay[]; onXong: () => 
             ))}
           </div>
 
-          <div className="flex items-baseline justify-between rounded-xl bg-secondary px-3 py-2">
-            <span className="text-sm font-semibold text-muted-foreground">Tổng dư</span>
+          <div className="flex items-baseline justify-between rounded-lg bg-surface-2 px-3 py-2">
+            <span className="text-sm font-semibold text-text-2">Tổng dư</span>
             <span className="tabular font-bold">{tongDu} suất</span>
           </div>
 

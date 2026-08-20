@@ -88,7 +88,7 @@ export function XemAnhCho({
               ))}
             </div>
           ) : anh.length === 0 && !loi ? (
-            <div className="flex flex-col items-center gap-2 py-8 text-center text-muted-foreground">
+            <div className="flex flex-col items-center gap-2 py-8 text-center text-text-2">
               <ImageOff className="h-8 w-8" />
               <p className="text-sm">
                 Không mở được ảnh. Kiểm tra bucket <strong>anh-cho</strong> đã có policy đọc chưa
@@ -103,7 +103,7 @@ export function XemAnhCho({
                   href={a.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="overflow-hidden rounded-xl border border-border bg-secondary"
+                  className="overflow-hidden rounded-xl border border-border bg-surface-2"
                 >
                   {/* Ảnh chụp giấy — dùng <img> thường vì next/image không chạy
                       với output: 'export' + link ký tạm */}

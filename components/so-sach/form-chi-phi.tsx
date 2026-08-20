@@ -144,9 +144,9 @@ export function FormChiPhi({
               <div className="min-w-0 flex-1">
                 <p className="truncate font-semibold">
                   {LOAI_CHI_PHI_LABEL[c.loai]}
-                  {c.dien_giai && <span className="font-normal text-muted-foreground"> · {c.dien_giai}</span>}
+                  {c.dien_giai && <span className="font-normal text-text-2"> · {c.dien_giai}</span>}
                 </p>
-                <p className="tabular text-xs text-muted-foreground">{ngayDay(c.ngay)}</p>
+                <p className="tabular text-xs text-text-2">{ngayDay(c.ngay)}</p>
               </div>
               <span className="tabular shrink-0 font-bold">{tien(c.so_tien)}</span>
               <button
@@ -160,7 +160,7 @@ export function FormChiPhi({
                   }
                 }}
                 aria-label={`Xoá khoản ${LOAI_CHI_PHI_LABEL[c.loai]} ${tien(c.so_tien)}`}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-danger-soft hover:text-danger"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-text-2 transition-colors hover:bg-danger-soft hover:text-danger"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -169,8 +169,8 @@ export function FormChiPhi({
         </Card>
       )}
 
-      <div className="flex items-baseline justify-between rounded-xl bg-secondary px-4 py-3">
-        <span className="text-sm font-bold uppercase tracking-wide text-muted-foreground">Tổng kỳ</span>
+      <div className="flex items-baseline justify-between rounded-lg bg-surface-2 px-4 py-3">
+        <span className="text-sm font-bold uppercase tracking-wide text-text-2">Tổng kỳ</span>
         <span className="tabular text-xl font-bold">{tien(tong)}</span>
       </div>
     </div>

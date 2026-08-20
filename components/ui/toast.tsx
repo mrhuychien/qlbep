@@ -15,9 +15,9 @@ const ToastViewport = React.forwardRef<
   <ToastPrimitives.Viewport
     ref={ref}
     className={cn(
-      // Trên điện thoại: nổi ở đáy, phía trên FAB + bottom-nav — trong tầm mắt khi đang thao tác
+      // Mobile: nổi trên FAB + bottom-nav. Desktop: góc trên-phải như NPP.
       'fixed bottom-[136px] left-0 right-0 z-[60] flex max-h-screen flex-col gap-2 p-3',
-      'sm:bottom-auto sm:left-auto sm:right-0 sm:top-0 sm:max-w-sm',
+      'sm:bottom-auto sm:left-auto sm:right-3 sm:top-[calc(var(--header-h)+0.5rem)] sm:max-w-sm',
       className,
     )}
     {...props}
@@ -25,15 +25,16 @@ const ToastViewport = React.forwardRef<
 ));
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
+/** Viền TRÁI 4px mang màu trạng thái — chữ ký toast của NPP. */
 const toastVariants = cva(
-  'group pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden rounded-xl border-l-4 bg-background p-4 pr-10 shadow-lg transition-all data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-80 data-[state=open]:slide-in-from-bottom-full sm:data-[state=open]:slide-in-from-right-full',
+  'group pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden rounded-lg border border-border border-l-4 bg-card p-4 pr-10 shadow-lg transition-all data-[state=open]:animate-vao-ngang data-[state=closed]:animate-out data-[state=closed]:fade-out-80',
   {
     variants: {
       variant: {
-        default: 'border-l-primary border border-border',
-        success: 'border-l-success border border-border',
-        destructive: 'border-l-danger border border-border',
-        warning: 'border-l-warning border border-border',
+        default: 'border-l-info',
+        success: 'border-l-success',
+        destructive: 'border-l-danger',
+        warning: 'border-l-warning',
       },
     },
     defaultVariants: { variant: 'default' },
@@ -55,7 +56,7 @@ const ToastAction = React.forwardRef<
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      'inline-flex h-9 shrink-0 items-center justify-center rounded-lg border border-border px-3 text-sm font-semibold',
+      'inline-flex h-9 shrink-0 items-center justify-center rounded-sm border border-border px-3 text-sm font-bold',
       className,
     )}
     {...props}
@@ -70,7 +71,7 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      'absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary',
+      'absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-sm text-text-3 hover:bg-surface-2',
       className,
     )}
     aria-label="Đóng"
@@ -93,23 +94,11 @@ const ToastDescription = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Description>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
 >(({ className, ...props }, ref) => (
-  <ToastPrimitives.Description
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+  <ToastPrimitives.Description ref={ref} className={cn('text-sm text-text-2', className)} {...props} />
 ));
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
 export type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>;
 export type ToastActionElement = React.ReactElement<typeof ToastAction>;
 
-export {
-  ToastProvider,
-  ToastViewport,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction,
-};
+export { ToastProvider, ToastViewport, Toast, ToastTitle, ToastDescription, ToastClose, ToastAction };

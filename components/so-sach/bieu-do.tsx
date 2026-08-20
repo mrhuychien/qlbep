@@ -33,9 +33,9 @@ function KhungBieuDo({
   return (
     <Card className="flex flex-col gap-1 p-3">
       <h3 className="text-sm font-bold">{tieuDe}</h3>
-      {moTa && <p className="text-xs text-muted-foreground">{moTa}</p>}
+      {moTa && <p className="text-xs text-text-2">{moTa}</p>}
       {trong ? (
-        <p className="py-10 text-center text-sm text-muted-foreground">Chưa có số liệu trong kỳ này.</p>
+        <p className="py-10 text-center text-sm text-text-2">Chưa có số liệu trong kỳ này.</p>
       ) : (
         <div className="h-56 w-full">{children}</div>
       )}

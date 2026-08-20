@@ -14,6 +14,7 @@ import {
   type DongChoLuu,
 } from '@/lib/queries';
 import { tuDongDay, xepHang } from '@/lib/offline-queue';
+import { useTaiLaiKhiBam } from '@/lib/tai-lai';
 import type { NguyenLieu, ThucDonNgay } from '@/lib/types';
 import { ChonNgay } from '@/components/chon-ngay';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
@@ -101,6 +102,7 @@ export default function ChoPage() {
   useEffect(() => {
     void tai();
   }, [tai]);
+  useTaiLaiKhiBam(tai);
 
   // Có sóng lại thì tự đẩy hàng đợi
   useEffect(() => tuDongDay((kq) => toastOk(`Đã gửi ${kq.xong} phiếu chợ chờ sẵn`)), []);
@@ -241,11 +243,8 @@ export default function ChoPage() {
   const daChon = new Set(dong.map((d) => d.nguyen_lieu_id));
 
   return (
-    <div className="flex flex-col gap-3 pb-4">
-      <header className="flex items-center gap-2">
-        <h1 className="shrink-0 text-lg font-bold">Ghi chợ</h1>
-        <ChonNgay ngay={ngay} doiNgay={setNgay} gon className="min-w-0 flex-1" />
-      </header>
+    <div className="flex flex-col gap-3">
+      <ChonNgay ngay={ngay} doiNgay={setNgay} />
 
       <BadgeOffline />
       {loi && <Loi loi={loi} thuLai={tai} />}
@@ -283,8 +282,8 @@ export default function ChoPage() {
         </Card>
       )}
 
-      <div className="flex items-baseline justify-between rounded-xl bg-secondary px-4 py-3">
-        <span className="text-sm font-bold uppercase tracking-wide text-muted-foreground">Tổng</span>
+      <div className="flex items-baseline justify-between rounded-lg bg-surface-2 px-4 py-3">
+        <span className="text-sm font-bold uppercase tracking-wide text-text-2">Tổng</span>
         <span className="tabular text-2xl font-bold">{tien(tongTien)}</span>
       </div>
 

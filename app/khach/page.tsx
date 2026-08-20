@@ -8,6 +8,7 @@ import { boDau, chuanSdt, khop } from '@/lib/format';
 import { layKhachHang } from '@/lib/queries';
 import type { KhachHang } from '@/lib/types';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
+import { useTaiLaiKhiBam } from '@/lib/tai-lai';
 import { DanhSachKhach } from '@/components/khach/danh-sach-khach';
 import { ChiTietKhach } from '@/components/khach/chi-tiet-khach';
 import { Input } from '@/components/ui/input';
@@ -47,6 +48,7 @@ export default function KhachPage() {
   useEffect(() => {
     void tai();
   }, [tai]);
+  useTaiLaiKhiBam(tai);
 
   const loc = useMemo(() => {
     const t = tu.trim();
@@ -78,8 +80,6 @@ export default function KhachPage() {
 
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-lg font-bold">Sổ khách</h1>
-
       {loi && <Loi loi={loi} thuLai={tai} />}
 
       <Tabs defaultValue="tat-ca">
@@ -93,7 +93,7 @@ export default function KhachPage() {
 
         <TabsContent value="tat-ca" className="flex flex-col gap-2">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-text-2" />
             <Input
               value={tu}
               onChange={(e) => setTu(e.target.value)}
@@ -121,7 +121,7 @@ export default function KhachPage() {
         </TabsContent>
 
         <TabsContent value="cham-soc" className="flex flex-col gap-2">
-          <p className="px-1 text-xs text-muted-foreground">
+          <p className="px-1 text-xs text-text-2">
             Khách đã đặt từ {DON_TOI_THIEU} đơn trở lên nhưng hơn {NGAY_IM_LANG} ngày nay chưa quay lại.
           </p>
 

@@ -17,10 +17,10 @@ export function Trong({
   hanhDong?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-border px-4 py-10 text-center">
-      {icon && <div className="text-muted-foreground">{icon}</div>}
-      <p className="font-bold">{tieuDe}</p>
-      {moTa && <p className="max-w-xs text-sm text-muted-foreground">{moTa}</p>}
+    <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card px-4 py-12 text-center shadow-sm">
+      {icon && <div className="text-3xl text-text-3">{icon}</div>}
+      <p className="text-[1.1rem] font-bold">{tieuDe}</p>
+      {moTa && <p className="max-w-xs text-sm text-text-2">{moTa}</p>}
       {hanhDong && <div className="mt-2">{hanhDong}</div>}
     </div>
   );
@@ -29,7 +29,7 @@ export function Trong({
 /** Lỗi phải nói cái gì hỏng và làm gì tiếp — không im lặng, không "Có lỗi xảy ra". */
 export function Loi({ loi, thuLai }: { loi: string; thuLai?: () => void }) {
   return (
-    <div className="flex flex-col items-start gap-2 rounded-xl border border-danger/30 bg-danger-soft p-4">
+    <div className="flex flex-col items-start gap-2 rounded-lg border border-danger/30 bg-danger-soft p-4">
       <div className="flex items-center gap-2 font-bold text-danger-ink">
         <AlertTriangle className="h-5 w-5" />
         Không tải được dữ liệu

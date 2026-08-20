@@ -3,14 +3,16 @@ import { Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/lib/auth-context';
 import { BepProvider } from '@/lib/bep-context';
+import { MuaProvider } from '@/lib/mua-context';
 import { Guard } from '@/components/guard';
 import { Toaster } from '@/components/ui/toaster';
 import { DangKySW } from '@/components/dang-ky-sw';
 
-// Be Vietnam Pro — thiết kế riêng cho tiếng Việt, đủ dấu, không vỡ chữ "ặỡẽẵờụ"
+// NPP dùng Inter; ở đây giữ Be Vietnam Pro vì thiết kế riêng cho tiếng Việt,
+// đủ dấu, không vỡ chữ "ặỡẽẵờụ". Chính doc của NPP cũng cho phép đổi font.
 const beVietnam = Be_Vietnam_Pro({
   subsets: ['vietnamese', 'latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
   variable: '--font-be-vietnam',
 });
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#EA580C',
+  themeColor: '#ff6b9d',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -34,12 +36,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" className={beVietnam.variable}>
-      <body className="bg-stone-50 font-sans">
+      <body className="font-sans">
         <AuthProvider>
           <BepProvider>
-            <Guard>{children}</Guard>
-            <Toaster />
-            <DangKySW />
+            <MuaProvider>
+              <Guard>{children}</Guard>
+              <Toaster />
+              <DangKySW />
+            </MuaProvider>
           </BepProvider>
         </AuthProvider>
       </body>

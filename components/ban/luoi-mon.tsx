@@ -65,18 +65,18 @@ export function LuoiMon({
               className={cn(
                 'flex h-24 w-full select-none flex-col items-center justify-center gap-0.5 rounded-xl border p-2 text-center transition-colors',
                 het
-                  ? 'border-border bg-secondary text-muted-foreground'
+                  ? 'border-border bg-surface-2 text-text-2'
                   : so > 0
                     ? 'border-primary bg-primary/10'
-                    : 'border-border bg-card active:bg-secondary',
+                    : 'border-border bg-card active:bg-surface-2',
               )}
             >
               <span className="line-clamp-2 text-sm font-semibold leading-tight">{t.ten_mon}</span>
-              <span className="tabular text-xs font-bold text-muted-foreground">{tien(t.gia_ban)}</span>
+              <span className="tabular text-xs font-bold text-text-2">{tien(t.gia_ban)}</span>
               {het ? (
                 <span className="text-xs font-bold uppercase">hết</span>
               ) : (
-                <span className="tabular text-[11px] text-muted-foreground">còn {conLai}</span>
+                <span className="tabular text-[11px] text-text-2">còn {conLai}</span>
               )}
             </button>
 
@@ -89,7 +89,7 @@ export function LuoiMon({
                   type="button"
                   onClick={() => onDoi(t.id, so - 1)}
                   aria-label={`Bớt 1 ${t.ten_mon}`}
-                  className="absolute -left-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background text-muted-foreground shadow-sm active:scale-95"
+                  className="absolute -left-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background text-text-2 shadow-sm active:scale-95"
                 >
                   <Minus className="h-3.5 w-3.5" />
                 </button>

@@ -5,22 +5,25 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ChefHat, Loader2 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 import { useBep } from '@/lib/bep-context';
-import { NavBottom } from '@/components/nav-bottom';
+import { useMua } from '@/lib/mua-context';
+import { Header } from '@/components/shell/header';
+import { NavDuoi } from '@/components/shell/nav-duoi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toastLoi } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 
 function ManCho({ chu }: { chu: string }) {
   return (
-    <div className="flex min-h-[70vh] flex-col items-center justify-center gap-3 text-muted-foreground">
+    <div className="tren-glow flex min-h-[70vh] flex-col items-center justify-center gap-3 text-text-2">
       <Loader2 className="h-7 w-7 animate-spin" />
-      <p className="text-sm font-medium">{chu}</p>
+      <p className="text-sm font-semibold">{chu}</p>
     </div>
   );
 }
 
-/** Chưa có bếp nào → bắt buộc tạo trước khi vào app. Gọi fn_tao_bep (kèm copy nguyên liệu mẫu). */
+/** Chưa có bếp nào → bắt buộc tạo trước khi vào app. Gọi fn_tao_bep. */
 function FormTaoBep() {
   const { taoBep } = useBep();
   const [ten, setTen] = useState('');
@@ -34,43 +37,29 @@ function FormTaoBep() {
     setDangGui(true);
     const { error } = await taoBep(ten.trim(), diaChi.trim() || undefined, sdt.trim() || undefined);
     setDangGui(false);
-    if (error) {
-      toastLoi('Chưa tạo được bếp', error);
-    }
+    if (error) toastLoi('Chưa tạo được bếp', error);
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-5 p-5">
+    <main className="tren-glow mx-auto flex min-h-screen w-full max-w-md flex-col justify-center gap-5 p-5">
       <div className="flex flex-col items-center gap-2 text-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
-          <ChefHat className="h-7 w-7" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-xl text-white shadow-md nen-mua">
+          <ChefHat className="h-8 w-8" />
         </div>
         <h1 className="text-xl font-bold">Tạo bếp của bạn</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-text-2">
           Tạo xong sẽ có sẵn danh mục nguyên liệu mẫu để đi chợ ngay.
         </p>
       </div>
 
-      <form onSubmit={gui} className="flex flex-col gap-3">
+      <form onSubmit={gui} className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 shadow-sm">
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="ten">Tên bếp *</Label>
-          <Input
-            id="ten"
-            value={ten}
-            onChange={(e) => setTen(e.target.value)}
-            placeholder="Bếp Cô Ba"
-            required
-            autoFocus
-          />
+          <Input id="ten" value={ten} onChange={(e) => setTen(e.target.value)} placeholder="Bếp Cô Ba" required autoFocus />
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="dia-chi">Địa chỉ</Label>
-          <Input
-            id="dia-chi"
-            value={diaChi}
-            onChange={(e) => setDiaChi(e.target.value)}
-            placeholder="Ngõ 5 Lê Lợi"
-          />
+          <Input id="dia-chi" value={diaChi} onChange={(e) => setDiaChi(e.target.value)} placeholder="Ngõ 5 Lê Lợi" />
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="sdt">Số điện thoại nhận đơn</Label>
@@ -97,6 +86,7 @@ export function Guard({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const { session, dangTai: dangTaiAuth } = useAuth();
   const { danhSach, dangTai: dangTaiBep } = useBep();
+  const { mua } = useMua();
 
   const laLogin = path === '/login' || path === '/login/';
 
@@ -106,17 +96,25 @@ export function Guard({ children }: { children: React.ReactNode }) {
     if (session && laLogin) router.replace('/');
   }, [session, dangTaiAuth, laLogin, router]);
 
-  if (laLogin) return <>{children}</>;
-  if (dangTaiAuth) return <ManCho chu="Đang mở sổ…" />;
-  if (!session) return <ManCho chu="Đang chuyển tới đăng nhập…" />;
-  if (dangTaiBep) return <ManCho chu="Đang tải bếp…" />;
-  if (danhSach.length === 0) return <FormTaoBep />;
+  // Lớp mùa đặt ở khung app, KHÔNG đặt trên <body>
+  const khung = (noi: React.ReactNode) => (
+    <div className={cn('app-mua', `mua-${mua}`)}>{noi}</div>
+  );
 
-  return (
+  if (laLogin) return khung(children);
+  if (dangTaiAuth) return khung(<ManCho chu="Đang mở sổ…" />);
+  if (!session) return khung(<ManCho chu="Đang chuyển tới đăng nhập…" />);
+  if (dangTaiBep) return khung(<ManCho chu="Đang tải bếp…" />);
+  if (danhSach.length === 0) return khung(<FormTaoBep />);
+
+  return khung(
     <>
-      {/* pb-40: chừa chỗ cho bottom-nav (64px) + FAB nổi bên trên */}
-      <main className="mx-auto w-full max-w-2xl px-3 pb-40 pt-3">{children}</main>
-      <NavBottom />
-    </>
+      <Header />
+      {/* pt = chừa header cố định; pb-40 = chừa bottom-nav 64px + FAB nổi trên */}
+      <main className="tren-glow mx-auto w-full max-w-app px-4 pb-40 pt-[calc(var(--header-h)+1rem)]">
+        {children}
+      </main>
+      <NavDuoi />
+    </>,
   );
 }

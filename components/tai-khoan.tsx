@@ -19,9 +19,9 @@ export function TaiKhoan() {
         type="button"
         onClick={() => setMo(true)}
         aria-label="Tài khoản"
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-secondary active:scale-95"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm text-text-2 transition-colors hover:bg-surface-2 active:scale-95"
       >
-        <UserRound className="h-5 w-5" />
+        <UserRound className="h-[18px] w-[18px]" />
       </button>
 
       <Sheet open={mo} onOpenChange={setMo}>
@@ -32,12 +32,10 @@ export function TaiKhoan() {
           </SheetHeader>
 
           {bep && (bep.dia_chi || bep.sdt) && (
-            <p className="text-sm text-muted-foreground">
-              {[bep.dia_chi, bep.sdt].filter(Boolean).join(' · ')}
-            </p>
+            <p className="text-sm text-text-2">{[bep.dia_chi, bep.sdt].filter(Boolean).join(' · ')}</p>
           )}
 
-          <Button variant="outline" onClick={dangXuat} className="w-full">
+          <Button variant="outline" onClick={dangXuat} className="w-full text-danger">
             <LogOut className="h-5 w-5" />
             Đăng xuất
           </Button>

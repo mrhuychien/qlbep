@@ -17,7 +17,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-stone-900/50 data-[state=open]:animate-in data-[state=closed]:animate-out',
+      'fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-[4px] data-[state=open]:animate-in data-[state=closed]:animate-out',
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className,
     )}
@@ -37,7 +37,7 @@ const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed z-50 flex flex-col gap-3 bg-background shadow-lg duration-200',
-        'inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-2xl p-4 pb-safe',
+        'inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-2xl p-5 pb-safe',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
         'sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[85vh] sm:w-full sm:max-w-lg',
@@ -51,7 +51,7 @@ const DialogContent = React.forwardRef<
       {children}
       {!hideClose && (
         <DialogPrimitive.Close
-          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring"
+          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-sm text-text-3 transition-colors hover:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-ring"
           aria-label="Đóng"
         >
           <X className="h-5 w-5" />
@@ -86,7 +86,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
+    className={cn('text-sm text-text-2', className)}
     {...props}
   />
 ));

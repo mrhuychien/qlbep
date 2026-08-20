@@ -1,7 +1,7 @@
 'use client';
 
 import { phanTram, tien } from '@/lib/format';
-import { Card } from '@/components/ui/card';
+import { KpiCard, KpiGrid } from '@/components/npp/kpi';
 
 /**
  * Ba con số của ngày. "Lãi gộp ước" = doanh thu − chi chợ, cố ý ghi chữ "ước":
@@ -12,35 +12,29 @@ export function ThongKeNgay({ doanhThu, chiCho }: { doanhThu: number; chiCho: nu
   const bienPct = doanhThu > 0 ? (laiGop / doanhThu) * 100 : null;
 
   return (
-    <Card className="divide-y divide-border">
-      <Dong nhan="Doanh thu" giaTri={tien(doanhThu)} />
-      <Dong nhan="Chi chợ" giaTri={tien(chiCho)} />
-      <div className="flex items-baseline justify-between gap-3 p-4">
-        <span className="text-sm font-semibold text-muted-foreground">
-          Lãi gộp <span className="font-normal">ước</span>
-        </span>
-        <span className="flex items-baseline gap-2">
-          <span
-            className={`tabular text-2xl font-bold ${laiGop < 0 ? 'text-danger' : 'text-success'}`}
+    <div className="flex flex-col gap-3">
+      <KpiGrid>
+        <KpiCard nhan="Doanh thu" giaTri={tien(doanhThu)} />
+        <KpiCard nhan="Chi chợ" giaTri={tien(chiCho)} />
+      </KpiGrid>
+
+      <div className="flex items-end justify-between gap-3 rounded-lg border border-border bg-card p-4 shadow-sm">
+        <div>
+          <div className="nhan">Lãi gộp ước</div>
+          <div
+            className={`tabular mt-1 text-[1.6rem] font-extrabold leading-none ${
+              laiGop < 0 ? 'text-danger' : 'text-success'
+            }`}
           >
             {tien(laiGop)}
-          </span>
-          {bienPct !== null && (
-            <span className="tabular w-12 text-right text-sm font-bold text-muted-foreground">
-              {phanTram(bienPct, 0)}
-            </span>
-          )}
-        </span>
+          </div>
+        </div>
+        {bienPct !== null && (
+          <div className="tabular shrink-0 text-right text-sm font-bold text-text-2">
+            {phanTram(bienPct, 0)}
+          </div>
+        )}
       </div>
-    </Card>
-  );
-}
-
-function Dong({ nhan, giaTri }: { nhan: string; giaTri: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-3 px-4 py-3">
-      <span className="text-sm font-semibold text-muted-foreground">{nhan}</span>
-      <span className="tabular text-lg font-bold">{giaTri}</span>
     </div>
   );
 }

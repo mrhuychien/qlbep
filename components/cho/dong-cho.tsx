@@ -113,7 +113,7 @@ export function DongChoRow({
         <button
           type="button"
           onClick={() => onSua(datGon(dong, !dong.gon))}
-          className="shrink-0 rounded-lg px-2 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-secondary"
+          className="shrink-0 rounded-lg px-2 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-surface-2"
         >
           {dong.gon ? `Theo ${dong.dvt_cho}` : 'Chỉ tiền'}
         </button>
@@ -122,7 +122,7 @@ export function DongChoRow({
           type="button"
           onClick={onXoa}
           aria-label={`Xoá dòng ${dong.ten}`}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary active:scale-95"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-text-2 transition-colors hover:bg-surface-2 active:scale-95"
         >
           <X className="h-4 w-4" />
         </button>
@@ -146,7 +146,7 @@ export function DongChoRow({
             <button
               type="button"
               onClick={() => onSua(datGon(dong, false))}
-              className="self-start text-xs font-semibold text-muted-foreground underline decoration-dotted"
+              className="self-start text-xs font-semibold text-text-2 underline decoration-dotted"
             >
               Lần trước {tien(dong.gia_gan_nhat)}/{dong.dvt_cho} — bấm để nhập theo {dong.dvt_cho}
             </button>
@@ -166,7 +166,7 @@ export function DongChoRow({
               aria-label={`${dong.ten}: số lượng`}
               className="tabular h-11 pr-8 text-center"
             />
-            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground">
+            <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold text-text-2">
               {dong.dvt_cho}
             </span>
           </div>
@@ -183,7 +183,7 @@ export function DongChoRow({
             className="tabular h-11 min-w-0 flex-1 text-right"
           />
 
-          <span className="shrink-0 text-sm font-bold text-muted-foreground">=</span>
+          <span className="shrink-0 text-sm font-bold text-text-2">=</span>
 
           <Input
             type="text"
@@ -206,7 +206,7 @@ export function DongChoRow({
           value={dong.mon_an_id ?? ''}
           onChange={(e) => onSua({ ...dong, mon_an_id: e.target.value || null })}
           aria-label={`${dong.ten}: gán cho món`}
-          className="h-9 min-w-0 flex-1 rounded-lg border border-input bg-background px-2 text-sm font-semibold text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          className="h-9 min-w-0 flex-1 rounded-lg border border-input bg-background px-2 text-sm font-semibold text-text-2 focus:outline-none focus:ring-2 focus:ring-ring"
         >
           <option value="">— Chi phí chung —</option>
           {monHomNay.map((m) => (

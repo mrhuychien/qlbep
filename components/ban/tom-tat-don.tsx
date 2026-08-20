@@ -39,7 +39,7 @@ export function TomTatDon({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-1.5">
-        <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+        <span className="text-xs font-bold uppercase tracking-wide text-text-2">
           Ship khách trả
         </span>
         <div className="flex items-center gap-1.5">
@@ -52,7 +52,7 @@ export function TomTatDon({
                 'tabular h-11 flex-1 rounded-xl border text-sm font-bold transition-colors',
                 docSoTien(ship) === s
                   ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border bg-card text-muted-foreground',
+                  : 'border-border bg-card text-text-2',
               )}
             >
               {s === 0 ? '0' : `${s / 1000}k`}
@@ -71,7 +71,7 @@ export function TomTatDon({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Kênh đặt</span>
+        <span className="text-xs font-bold uppercase tracking-wide text-text-2">Kênh đặt</span>
         <div className="flex items-center gap-1.5">
           {KENH.map((k) => (
             <button
@@ -82,7 +82,7 @@ export function TomTatDon({
                 'h-11 flex-1 rounded-xl border text-sm font-bold transition-colors',
                 kenh === k
                   ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border bg-card text-muted-foreground',
+                  : 'border-border bg-card text-text-2',
               )}
             >
               {KENH_DAT_LABEL[k]}
@@ -94,7 +94,7 @@ export function TomTatDon({
       <label className="flex min-h-tap cursor-pointer items-center justify-between gap-3 rounded-xl border border-border bg-card px-4">
         <span className="font-semibold">
           {daThu ? 'Đã thu tiền' : 'Chưa thu tiền'}
-          <span className="ml-1.5 text-xs font-normal text-muted-foreground">
+          <span className="ml-1.5 text-xs font-normal text-text-2">
             {daThu ? 'mặc định' : 'sẽ vào công nợ'}
           </span>
         </span>
@@ -102,12 +102,13 @@ export function TomTatDon({
           type="checkbox"
           checked={daThu}
           onChange={(e) => setDaThu(e.target.checked)}
-          className="h-6 w-6 accent-[#EA580C]"
+          style={{ accentColor: 'var(--mua-1)' }}
+          className="h-6 w-6"
         />
       </label>
 
-      <div className="flex items-baseline justify-between rounded-xl bg-secondary px-4 py-3">
-        <span className="text-sm font-bold uppercase tracking-wide text-muted-foreground">Tổng</span>
+      <div className="flex items-baseline justify-between rounded-lg bg-surface-2 px-4 py-3">
+        <span className="text-sm font-bold uppercase tracking-wide text-text-2">Tổng</span>
         <span className="tabular text-2xl font-bold">{tien(tong)}</span>
       </div>
 

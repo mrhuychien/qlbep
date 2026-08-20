@@ -18,7 +18,7 @@ const SheetOverlay = React.forwardRef<
   <SheetPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-stone-900/50 data-[state=open]:animate-in data-[state=closed]:animate-out',
+      'fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-[4px] data-[state=open]:animate-in data-[state=closed]:animate-out',
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className,
     )}
@@ -52,10 +52,10 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
   ({ side = 'bottom', className, children, ...props }, ref) => (
     <SheetPortal>
       <SheetOverlay />
-      <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), 'p-4', className)} {...props}>
+      <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), 'p-5', className)} {...props}>
         {children}
         <SheetPrimitive.Close
-          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring"
+          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg text-text-3 hover:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-ring"
           aria-label="Đóng"
         >
           <X className="h-5 w-5" />
@@ -83,7 +83,7 @@ const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
 >(({ className, ...props }, ref) => (
-  <SheetPrimitive.Description ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+  <SheetPrimitive.Description ref={ref} className={cn('text-sm text-text-2', className)} {...props} />
 ));
 SheetDescription.displayName = SheetPrimitive.Description.displayName;
 

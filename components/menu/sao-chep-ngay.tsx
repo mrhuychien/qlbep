@@ -68,12 +68,12 @@ export function SaoChepNgay({
           </DialogHeader>
 
           {dangTai ? (
-            <p className="flex items-center gap-2 py-6 text-sm text-muted-foreground">
+            <p className="flex items-center gap-2 py-6 text-sm text-text-2">
               <Loader2 className="h-4 w-4 animate-spin" />
               Đang tìm ngày có thực đơn…
             </p>
           ) : ds.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted-foreground">
+            <p className="py-6 text-center text-sm text-text-2">
               Chưa có ngày nào trước đó để chép.
             </p>
           ) : (
@@ -84,7 +84,7 @@ export function SaoChepNgay({
                   type="button"
                   onClick={() => chep(d)}
                   disabled={dangChep !== null}
-                  className="flex min-h-tap items-center justify-between rounded-lg border border-border px-3 text-left font-semibold transition-colors hover:bg-secondary disabled:opacity-50"
+                  className="flex min-h-tap items-center justify-between rounded-lg border border-border px-3 text-left font-semibold transition-colors hover:bg-surface-2 disabled:opacity-50"
                 >
                   {ngayCoThu(d)}
                   {dangChep === d && <Loader2 className="h-4 w-4 animate-spin" />}

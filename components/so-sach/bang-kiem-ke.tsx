@@ -95,7 +95,7 @@ export function BangKiemKe({ bepId }: { bepId: string }) {
     <div className="flex flex-col gap-3">
       <ChonNgay ngay={ngay} doiNgay={setNgay} />
 
-      <p className="rounded-xl bg-secondary px-3 py-2 text-xs text-muted-foreground">
+      <p className="rounded-lg bg-surface-2 px-3 py-2 text-xs text-text-2">
         Chỉ kiểm nhóm A. Rau thịt tươi đã tính chi phí ngay khi mua.
       </p>
 
@@ -128,7 +128,7 @@ export function BangKiemKe({ bepId }: { bepId: string }) {
                 aria-label={`${n.ten}: số lượng tồn`}
                 className="tabular h-11 w-16 shrink-0 text-center"
               />
-              <span className="w-8 shrink-0 text-xs font-semibold text-muted-foreground">{n.dvt_cho}</span>
+              <span className="w-8 shrink-0 text-xs font-semibold text-text-2">{n.dvt_cho}</span>
               <Input
                 type="text"
                 inputMode="numeric"
@@ -144,8 +144,8 @@ export function BangKiemKe({ bepId }: { bepId: string }) {
         </Card>
       )}
 
-      <div className="flex items-baseline justify-between rounded-xl bg-secondary px-4 py-3">
-        <span className="text-sm font-bold uppercase tracking-wide text-muted-foreground">
+      <div className="flex items-baseline justify-between rounded-lg bg-surface-2 px-4 py-3">
+        <span className="text-sm font-bold uppercase tracking-wide text-text-2">
           Tổng tồn · {soDaNhap}/{nl.length} dòng
         </span>
         <span className="tabular text-xl font-bold">{tien(tong)}</span>
@@ -164,7 +164,7 @@ export function BangKiemKe({ bepId }: { bepId: string }) {
         </div>
       )}
 
-      <p className="px-1 text-xs text-muted-foreground">
+      <p className="px-1 text-xs text-text-2">
         Bỏ trống = 0. Chỉ phiếu <strong>đã chốt</strong> mới được dùng làm tồn đầu / tồn cuối khi tính lãi lỗ.
       </p>
     </div>

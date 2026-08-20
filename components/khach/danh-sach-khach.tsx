@@ -27,7 +27,7 @@ export function DanhSachKhach({
               className="flex min-w-0 flex-1 flex-col items-start gap-0.5 px-3 py-2.5 text-left"
             >
               <span className="w-full truncate font-semibold">{k.ten}</span>
-              <span className="tabular w-full truncate text-xs text-muted-foreground">
+              <span className="tabular w-full truncate text-xs text-text-2">
                 {k.tong_don} đơn · {tien(k.tong_tien)} · {truoc(k.lan_cuoi_dat)}
               </span>
               {phu && <span className="text-xs font-bold text-danger">{phu}</span>}
@@ -39,14 +39,14 @@ export function DanhSachKhach({
               target="_blank"
               rel="noreferrer"
               aria-label={`Nhắn Zalo cho ${k.ten}`}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-primary transition-colors hover:bg-secondary"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-primary transition-colors hover:bg-surface-2"
             >
               <MessageCircle className="h-5 w-5" />
             </a>
             <a
               href={`tel:${sdt}`}
               aria-label={`Gọi ${k.ten}`}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-primary transition-colors hover:bg-secondary"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-primary transition-colors hover:bg-surface-2"
             >
               <Phone className="h-5 w-5" />
             </a>

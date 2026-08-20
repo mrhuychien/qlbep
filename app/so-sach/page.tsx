@@ -15,6 +15,7 @@ import {
 } from '@/lib/queries';
 import type { ChiPhiKhac, GiaVonMonNgay, Pnl, WasteMon } from '@/lib/types';
 import { DangTaiThe, Loi, Trong } from '@/components/trang-thai';
+import { useTaiLaiKhiBam } from '@/lib/tai-lai';
 import { BaoCaoPnl } from '@/components/so-sach/bao-cao-pnl';
 import { FormChiPhi } from '@/components/so-sach/form-chi-phi';
 import { BangKiemKe } from '@/components/so-sach/bang-kiem-ke';
@@ -86,6 +87,7 @@ export default function SoSachPage() {
   useEffect(() => {
     void tai();
   }, [tai]);
+  useTaiLaiKhiBam(tai);
 
   function doiKy(ma: MaKy) {
     setMaKy(ma);
@@ -156,8 +158,6 @@ export default function SoSachPage() {
 
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-lg font-bold">Sổ sách</h1>
-
       <Tabs defaultValue="lai-lo">
         <TabsList>
           <TabsTrigger value="lai-lo">Lãi lỗ</TabsTrigger>
@@ -177,7 +177,7 @@ export default function SoSachPage() {
                   'h-10 rounded-full border px-3.5 text-sm font-bold transition-colors',
                   maKy === m
                     ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-border bg-card text-muted-foreground',
+                    : 'border-border bg-card text-text-2',
                 )}
               >
                 {KY_NHAN[m]}
@@ -194,7 +194,7 @@ export default function SoSachPage() {
                 aria-label="Từ ngày"
                 className="min-w-0 flex-1"
               />
-              <span className="shrink-0 text-sm text-muted-foreground">đến</span>
+              <span className="shrink-0 text-sm text-text-2">đến</span>
               <Input
                 type="date"
                 value={ky.den}
@@ -204,7 +204,7 @@ export default function SoSachPage() {
               />
             </div>
           ) : (
-            <p className="px-1 text-xs text-muted-foreground">
+            <p className="px-1 text-xs text-text-2">
               {ngayDay(ky.tu)} → {ngayDay(ky.den)}
             </p>
           )}
@@ -279,7 +279,7 @@ function BangCanhBao({
         </span>
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-bold">{tieuDe}</h3>
-          <p className="text-xs text-muted-foreground">{moTa}</p>
+          <p className="text-xs text-text-2">{moTa}</p>
         </div>
       </div>
 

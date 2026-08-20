@@ -98,13 +98,13 @@ export function ChiTietKhach({
           <O nhan="TB / đơn" giaTri={tien(tbDon)} />
         </div>
 
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-text-2">
           Lần cuối đặt: <span className="font-semibold text-foreground">{truoc(khach.lan_cuoi_dat)}</span>
         </p>
 
         {topMon.length > 0 && (
           <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+            <span className="text-xs font-bold uppercase tracking-wide text-text-2">
               Hay đặt nhất
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -149,7 +149,7 @@ export function ChiTietKhach({
         ) : (
           <>
             {khach.ghi_chu && (
-              <p className="rounded-xl bg-secondary px-3 py-2 text-sm">{khach.ghi_chu}</p>
+              <p className="rounded-lg bg-surface-2 px-3 py-2 text-sm">{khach.ghi_chu}</p>
             )}
             <Button variant="outline" onClick={() => setSua(true)} className="w-full">
               Sửa thông tin
@@ -158,21 +158,21 @@ export function ChiTietKhach({
         )}
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+          <span className="text-xs font-bold uppercase tracking-wide text-text-2">
             Lịch sử đơn
           </span>
           {dangTai ? (
-            <p className="flex items-center gap-2 py-3 text-sm text-muted-foreground">
+            <p className="flex items-center gap-2 py-3 text-sm text-text-2">
               <Loader2 className="h-4 w-4 animate-spin" />
               Đang tải…
             </p>
           ) : don.length === 0 ? (
-            <p className="py-3 text-sm text-muted-foreground">Chưa có đơn nào.</p>
+            <p className="py-3 text-sm text-text-2">Chưa có đơn nào.</p>
           ) : (
             <div className="flex flex-col divide-y divide-border rounded-xl border border-border">
               {don.map((d) => (
                 <div key={d.id} className="flex items-center gap-2 px-3 py-2 text-sm">
-                  <span className="tabular w-20 shrink-0 text-muted-foreground">{ngayDay(d.ngay)}</span>
+                  <span className="tabular w-20 shrink-0 text-text-2">{ngayDay(d.ngay)}</span>
                   <span className="min-w-0 flex-1 truncate">
                     {(d.don_hang_ct ?? []).map((c) => c.ten_mon).join(', ') || '—'}
                   </span>
@@ -189,8 +189,8 @@ export function ChiTietKhach({
 
 function O({ nhan, giaTri }: { nhan: string; giaTri: string }) {
   return (
-    <div className="flex flex-col rounded-xl bg-secondary px-3 py-2">
-      <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{nhan}</span>
+    <div className="flex flex-col rounded-lg bg-surface-2 px-3 py-2">
+      <span className="text-[11px] font-bold uppercase tracking-wide text-text-2">{nhan}</span>
       <span className="tabular truncate font-bold">{giaTri}</span>
     </div>
   );

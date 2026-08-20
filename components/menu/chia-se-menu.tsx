@@ -59,7 +59,7 @@ export function ChiaSeMenu({
             value={text}
             rows={Math.min(ds.length + 3, 12)}
             onFocus={(e) => e.currentTarget.select()}
-            className="w-full resize-none rounded-xl border border-input bg-secondary p-3 text-base leading-relaxed"
+            className="w-full resize-none rounded-xl border border-input bg-surface-2 p-3 text-base leading-relaxed"
             aria-label="Nội dung thực đơn để chia sẻ"
           />
 

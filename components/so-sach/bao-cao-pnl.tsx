@@ -30,7 +30,7 @@ export function BaoCaoPnl({ pnl }: { pnl: Pnl }) {
             {tien(laiRong)}
           </span>
           {bienRong !== null && (
-            <span className="tabular w-14 text-right text-sm font-bold text-muted-foreground">
+            <span className="tabular w-14 text-right text-sm font-bold text-text-2">
               {phanTram(bienRong)}
             </span>
           )}
@@ -38,7 +38,7 @@ export function BaoCaoPnl({ pnl }: { pnl: Pnl }) {
       </div>
 
       {Number(pnl.ton_dau_a) === 0 && Number(pnl.ton_cuoi_a) === 0 && (
-        <p className="px-4 pb-3 text-xs text-muted-foreground">
+        <p className="px-4 pb-3 text-xs text-text-2">
           Chưa có phiếu kiểm kê nào được chốt, nên nhóm A đang tính bằng đúng số đã mua trong kỳ.
           Kiểm kê ở tab bên cạnh để số này sát hơn.
         </p>
@@ -50,10 +50,10 @@ export function BaoCaoPnl({ pnl }: { pnl: Pnl }) {
 function Dong({ nhan, so, pct, dam }: { nhan: string; so: number; pct?: number | null; dam?: boolean }) {
   return (
     <div className="flex items-baseline justify-between gap-3 border-b border-border px-4 py-2.5">
-      <span className={`text-sm ${dam ? 'font-bold' : 'font-semibold text-muted-foreground'}`}>{nhan}</span>
+      <span className={`text-sm ${dam ? 'font-bold' : 'font-semibold text-text-2'}`}>{nhan}</span>
       <span className="flex items-baseline gap-2">
         <span className={`tabular ${dam ? 'text-lg font-bold' : 'font-bold'}`}>{tien(so)}</span>
-        <span className="tabular w-14 text-right text-xs font-bold text-muted-foreground">
+        <span className="tabular w-14 text-right text-xs font-bold text-text-2">
           {pct !== undefined && pct !== null ? phanTram(pct) : ''}
         </span>
       </span>
@@ -64,7 +64,7 @@ function Dong({ nhan, so, pct, dam }: { nhan: string; so: number; pct?: number |
 function DongPhu({ nhan, so }: { nhan: string; so: number }) {
   return (
     <div className="flex items-baseline justify-between gap-3 border-b border-border py-1.5 pl-8 pr-4">
-      <span className="text-xs text-muted-foreground">{nhan}</span>
+      <span className="text-xs text-text-2">{nhan}</span>
       <span className="tabular pr-16 text-sm">{tien(so)}</span>
     </div>
   );
